@@ -1,0 +1,243 @@
+\chapter{Applying LDA model on Overlapping Community Detection}
+\doublespacing
+\label{chap:lda}
+\minitoc
+
+\section{Introduction of LDA Approach}
+In Natural Language Processing (NLP), Latent Dirichlet Allocation (LDA) \cite{blei2003latent} is a classical document clustering method. It is used to detect latent topics from documents by constructing a document-topic-word three layer probabilistic graphical model. In this three layer model, document and word can be observed from dataset, while topic is a hidden layer, which could be estimated by the observed data.  
+In StackOverflow, a user submits a question, then assigns 1$\sim$5 tags to indicate the key points of this question. Other users who are interested in the question may provide answers to the question or comments to other answers. The basic social graph in StackOverflow is a question-answer graph. As tags attached to a question can reflect the boundary or domain of it, users answering the question can be considered as interested by this domain. As a result, a basic approach is as follows. A user answering a question acquires tags attached to this question. Gradually, each user acquires a list of tags associated with their frequencies. If we treat a user as a document, tags acquired by the user as words in a document, 
+then community detection could also be considered as a clustering problem. User with similar topics of interest are partitioned into the same cluster as a community of interest.
+
+Similarly to \cite{Li:2010:CTM:1871437.1871673}, we applied the classic LDA method to construct a users-topics-tags model to detect latent topics of interest from the tags acquired by users and then cluster users into different topics. The output of the model consists in two probability distributions:
+1) a User-Topic distribution to describe to what extent a user is interested in different topics.
+2) a Topic-Tag distribution to describe to what extent a topic is related to different tags.
+
+
+The formalization of this model is given by equation~\ref{eq:general}: 
+\begin{equation}
+P(t|u)=P(t|z)*P(z|u)
+\label{eq:general}
+\end{equation}
+where $t$ denotes a tag, $z$ denotes a latent topic, $u$ denotes a user. The probability of a tag for a user is the result of multiplying the probability of this tag for a topic and the probability of this topic for the user.
+
+The plate notation of this model is presented in Figure \ref{fig:lda}. 
+The dependencies among the many variables can be captured by the direction of line. 
+The boxes represent replicated variables, which are users, interests and tags. The outer boxes represent users, while the inner boxes represent the repeated choice of topics and tags for a user. The parameters of this model are explained in Table \ref{tab:parameters}.
+$M$ and $V$ are given while $K$, $\alpha$ and $\beta$ can be chosen. $T$ is observed in users' tag lists. Other variables are latent variables which have to be estimated.
+
+\begin{figure}[htbp]\centering
+\includegraphics[ width=2.0in]{lda.jpg}  % "pdflatex"
+\caption{User-Topic-Tag (LDA) Model}
+\label{fig:lda}
+\end{figure}
+
+The intuition behind this model is that users choose their topics and topics generate tags.
+The generative process can be summarized as follows:
+
+\noindent\rule[0.5ex]{\linewidth}{1pt}
+\textbf{Process of generating a user's tag list}\\
+\noindent \textbf{for} interest k \textbf{in} [1..K]:\\
+\indent draw topic tag distribution $\phi(k)$ $\sim$ Dir($\beta$)\\
+\noindent \textbf{for} user $m \in [1,M]$:\\
+\indent draw a user-topic distribution $\theta(m)$ $\sim$ Dir($\alpha$)\\  
+\indent \textbf{for} each tag $n \in$   user $m$'s tag list, where $n~\in~[1,N_m]$, $m~\in~[1..M]$\\
+\indent \indent draw topic $z_{m,n}$  $\sim$ Multi($\theta(m)$)\\
+\indent \indent draw tag $t_{m,n}$ $\sim$ Multi($\phi(z_{m,n})$)\\ 
+\noindent\rule[0.5ex]{\linewidth}{1pt}
+
+\begin{table}[htbp]
+\caption{Model parameters}
+\label{tab:parameters}
+\centering
+\begin{tabular}{|c|c|}
+\hline
+Parameter & Meaning \\
+\hline
+$M$ & the total number of users\\
+\hline
+$K$ & the total number of topics\\
+\hline
+$V$ & the total number of tags\\
+\hline
+$N_m$ & the total number of tags for user $m$\\
+\hline
+$\alpha$ & the parameter of the Dirichlet prior on the per-user topic distributions \\
+\hline
+$\beta$ & the parameter of the Dirichlet prior on the per-topic tag distributions  \\
+\hline
+$\theta_m$ & the topic distribution for user $m$ \\
+\hline
+$\phi_k$ & the tag distribution for topic $k$ \\
+\hline
+$z_{m,n}$ & the topic for $n^{th}$ tag in $m$'s tag list \\
+\hline
+$t_{m,n}$ & the specified tag in $n^{th}$ position of $m$'s tag list\\
+\hline
+
+\end{tabular}
+\end{table}
+
+We use the collapsed Gibbs Sampling method~\cite{griffiths2004finding} to sample the hidden variable $z$, then $\theta$ and $\phi$ can both be estimated.
+The inference process is as follows.
+We iteratively sample the topic indicator $z_{m,n}$ for each answer tag $t_{m,n}$ according to equation \ref{eq:ldasample}. 
+
+
+\begin{equation}
+\begin{split}
+p(z_i= z_{m,n} |u=u_m, t=t_{m,n}, Z, U, T_{\neg i}) &\\
+\propto \frac{ C_{u_m,\neg i}^{z_{m,n}} + \alpha }{ \sum_{k=1}^K C_{u_m,\neg i}^k + K* \alpha} &\\
+\cdot   \frac{ C_{z_{m,n},\neg i}^{t_{m,n}} + \beta }{ \sum_{t=1}^V C_{z_{m,n},\neg i}^t + V* \beta} &\\ 
+\end{split}
+\label{eq:ldasample}
+\end{equation}
+
+\noindent
+where $\neg i$ enforces that all the counters used are calculated with tag $t_i$ excluded. $C_{u,\neg i}^k$ is the number of tags acquired by user $u$ assigned to topic $k$, $C_{k,\neg i}^{t}$ is the number of tags $t$ assigned to topic $k$.
+
+Then with a Gibbs sampling, we can estimate $\theta$ and $\phi$ by equation \ref{eq:computetheta} and \ref{eq:computephi}:
+
+\begin{equation}\scriptsize
+\theta=\frac{ C_u^k + \alpha}{ \sum_{k=1}^K C_u^k+ K* \alpha}
+\label{eq:computetheta} 
+\end{equation}
+\begin{equation}\scriptsize
+\phi =\frac{ C_k^t + \beta}{ \sum_{t=1}^V C_k^t+ V* \beta}
+\label{eq:computephi} 
+\end{equation}
+
+\noindent
+where $C_u^k$ is the number of tags assigned to topic $k$ of user $u$ , $C_k^t$ is the number of tags $t$ assigned to topic $k$.
+
+
+\section{Experiments: find topics and communities}
+We run the above described model on a dataset from the popular Q\&A site StackOverflow, each user being represented by her tag list as explained before. We just illustrate some of the results to show the effectiveness of this model.
+
+A first result is the probability for each tag to belong to each topic. This is  shown in Table \ref{tab:ldaresult1}. 
+The second result is the probability for a user to belong to different topics of interest. This is shown in Table \ref{tab:ldaresult2}. 
+
+Table \ref{tab:ldaresult1} shows eight detected topics of interest, one column for one topic, and ten rows for the top 10 tags for each topic, sorted by descending weights (a tag's weight is the probability of the tag to belong to the topic).  
+This table shows that each topic has a clear and focused interest. For example, topic 1 has c-development related tags, topic 2 has java-development related tags, topic 3 has c\#-development related tags, topic 4 has html-development related tags, topic 5 has iphone-development related tags, topic 6 has database related tags, topic 7 has linux-development related tags, topic 8 has non-programming related tags. 
+Moreover, weights reflect the relevance of tags to each topic. For example, topic 5 is concerned with iphone-development, its top 3 tags are 'iphone', 'objective-c' and 'cocoa' which are very relevant to it.
+\begin{table}[htbp]
+\tiny
+\caption{Top 10 related tags for detected topics of interest}
+\label{tab:ldaresult1}
+\centering
+\begin{tabular}{|p{40pt}||p{40pt}||p{40pt}||p{40pt}|}
+%\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{topic1} & \textbf{topic2} & \textbf{topic3} & \textbf{topic4} \\
+\hline
+%\multicolumn{4}{|c|}{c++(0.225), c(0.084), java(0.345), java(0.345), java(0.345), java(0.345), java(0.345), java(0.345), java(0.345), java(0.345)}\\
+%\hline
+ \textbf{c++}(0.225)& \textbf{java}(0.345)& \textbf{c\#}(0.225)& \textbf{php}(0.117) \\ 
+\hline
+ \textbf{c}(0.084)& \textbf{eclipse}(0.023)& \textbf{.net}(0.128)& \textbf{javascript}(0.115) \\ 
+\hline
+ \textbf{windows}(0.020)& \textbf{swing}(0.015)& \textbf{asp.net}(0.059)& \textbf{html}(0.059) \\ 
+\hline
+ \textbf{stl}(0.014)& best-practices (0.014)& \textbf{vb.net}(0.019)& \textbf{jquery}(0.056) \\ 
+\hline
+ algorithm(0.014)& multithreading (0.011)& \textbf{linq}(0.018)& \textbf{css}(0.042) \\ 
+\hline
+ c\#(0.013)& xml(0.010)& windows-forms (0.016)& mysql(0.029) \\ 
+\hline
+ \textbf{win32}(0.013)& \textbf{spring}(0.010)& \textbf{visual-studio} (0.015)& \textbf{ajax}(0.021) \\ 
+\hline
+ linux(0.011)& performance (0.009)& \textbf{asp.net-mvc} (0.015)& \textbf{web-development} (0.019) \\ 
+\hline
+ best-practices (0.011)& jsp(0.008)& wpf(0.012)& regex(0.018) \\ 
+\hline
+ multithreading (0.011)& generics(0.008)& best-practices (0.011)& \textbf{asp.net}(0.015) \\ 
+\hline
+\hline
+\textbf{topic5} & \textbf{topic6} & \textbf{topic7} & \textbf{topic8} \\
+\hline
+ \textbf{iphone}(0.137)& \textbf{sql}(0.181)& \textbf{python}(0.181)& subjective(0.143) \\ 
+\hline
+ \textbf{objective-c} (0.123)& \textbf{sql-server}(0.150)& \textbf{perl}(0.056)& \textbf{best-practices} (0.038) \\ 
+\hline
+ \textbf{cocoa}(0.080)& \textbf{database}(0.062)& \textbf{regex}(0.031)& \textbf{language-agnostic} (0.035) \\ 
+\hline
+ ms-access(0.062)& delphi(0.042)& \textbf{linux}(0.030)& programming (0.028) \\ 
+\hline
+ \textbf{cocoa-touch} (0.056)& \textbf{sql-server-2005} (0.042)& \textbf{ruby}(0.027)& \textbf{not-programming-related} (0.019) \\ 
+\hline
+ \textbf{iphone-sdk} (0.041)& \textbf{mysql}(0.039)& django(0.023)& \textbf{career-development} (0.018) \\ 
+\hline
+ vba(0.035)& \textbf{tsql}(0.037)& ruby-on-rails (0.021)& \textbf{learning}(0.017) \\ 
+\hline
+ excel(0.023)& \textbf{oracle}(0.028)& beginner(0.017)& polls(0.017) \\ 
+\hline
+ vb6(0.022)& \textbf{database-design} (0.025)& git(0.013)& programming-languages (0.015) \\ 
+\hline
+ xslt(0.021)& \textbf{stored-procedures} (0.017)& \textbf{bash}(0.013)& \textbf{design}(0.014) \\ 
+\hline
+\end{tabular}
+\end{table}
+
+Table \ref{tab:ldaresult2} shows six randomly chosen users and their top 10 tags. The first row contains user ids, the second row contains their detected topics of interest with their probability. The following ten rows show the top 10 tags for each user. We replaced topic ids with topic names which we have assigned to them according to their associated tags.
+\begin{table}[htbp]
+\tiny
+\caption{Detected topics of interest}
+\label{tab:ldaresult2}
+\centering
+\begin{tabular}{|p{60pt}|p{60pt}|p{60pt}|}
+\hline
+user\_21886&user\_14860&user\_15401\\
+\hline
+\textbf{\textcolor{blue}{html-development}} (0.284), \textbf{\textcolor{brown}{c-development}} (0.275)& \textbf{\textcolor{blue}{c-development}} (0.333), \textbf{\textcolor{brown}{linux-development}} (0.196)&\textbf{\textcolor{blue}{database-related}} (0.383), \textbf{\textcolor{brown}{non-programming-related}} (0.290)\\
+\hline
+python(93)&\textcolor{blue}{c}(152)&\textcolor{blue}{sql-server}(108)\\
+%\hline
+\textcolor{brown}{c++}(64)&\textcolor{blue}{c++}(148)&\textcolor{blue}{database}(64)\\
+%\hline
+\textcolor{blue}{javascript}(45)&java(89)&\textcolor{blue}{sql}(63)\\
+%\hline
+\textcolor{blue}{html}(34)&subjective(89)&\textcolor{brown}{subjective}(45)\\
+%\hline
+\textcolor{brown}{c\#}(33)&c\#(68)&python(43)\\
+%\hline
+\textcolor{blue}{css}(32)&sql(68)&\textcolor{blue}{sql-server-2005}(31)\\
+%\hline
+\textcolor{brown}{visual-studio}(29)&\textcolor{blue}{windows}(67)&\textcolor{brown}{best-practices}(27)\\
+%\hline
+\textcolor{brown}{windows}(27)&\textcolor{brown}{linux}(54)&.net(25)\\
+%\hline
+\textcolor{brown}{c}(27)&\textcolor{brown}{bash}(48)&c++(23)\\
+%\hline
+.net(24)&\textcolor{brown}{regex}(43)&c\#(22)\\
+\hline
+\hline
+user\_78374&user\_53897&user\_23743\\
+\hline
+\textbf{\textcolor{blue}{non-programming-related}} (0.493), \textbf{\textcolor{brown}{linux-development}} (0.316)&\textbf{\textcolor{blue}{java-development}} (0.835), \textbf{\textcolor{brown}{non-programming-related}} (0.075)&\textbf{\textcolor{blue}{iphone-development}} (0.683), \textbf{\textcolor{brown}{non-programming-related}} (0.155)\\
+\hline
+\textcolor{blue}{subjective}(35)&\textcolor{blue}{java}(366)&\textcolor{blue}{objective-c}(73)\\
+%\hline
+\textcolor{brown}{python}(32)&\textcolor{blue}{eclipse}(24)&\textcolor{blue}{cocoa}(71)\\
+%\hline
+\textcolor{blue}{best-practices}(16)&\textcolor{blue}{tomcat}(20)&\textcolor{blue}{iphone}(34)\\
+%\hline
+c(13)&\textcolor{brown}{subjective}(18)&\textcolor{blue}{cocoa-touch}(21)\\
+%\hline
+programming(13)&\textcolor{blue}{performance}(18)&\textcolor{blue}{mac}(19)\\
+%\hline
+c++(10)&\textcolor{brown}{best-practices}(16)&\textcolor{blue}{osx}(17)\\
+%\hline
+\textcolor{blue}{beginner}(8)&\textcolor{blue}{j2ee}(14)&\textcolor{blue}{iphone-sdk}(13)\\
+%\hline
+\textcolor{blue}{not-programming-related}(8)&\textcolor{blue}{jar}(13)&\textcolor{blue}{xcode}(10)\\
+%\hline
+\textcolor{blue}{language-agnostic}(6)&logging(10)&\textcolor{brown}{subjective}(8)\\
+%\hline
+\textcolor{blue}{coding-style}(5)&c\#(9)&c(8)\\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Discussion: the limitation and problems}
+The above experiments show that, by applying topic models on Q\&A website, we are able to detect overlapping communities, and the detected topics are useful to explain each corresponding community. In our work, we directly use each topic to represent a community.
+
+However, we found that there are three limitations when applying LDA models to our task. The first one is a lack of efficiency: the complexity of the probabilistic model was prohibitive. The second limitation is that the  original LDA model does not enable to extract temporal and expertise information. The third limitation is that the detected probability distributions cannot be compared with each other. 
+Therefore, we extended our work in two directions. First, we developed a more simple method to detect topics and overlapping communities to solve the first problem: the TTD method is presented in Chapter \ref{chap:ttd}. Second, we propose a more complex model to extract more information from user generated content to answer the two other limitations: the TTEA method is presented in Chapter \ref{chap:ttea}.

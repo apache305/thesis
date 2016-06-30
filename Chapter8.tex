@@ -1,0 +1,13 @@
+\chapter{Conclusion}
+\doublespacing
+\label{chap:intro}
+\minitoc
+
+
+
+In this thesis, we addressed several research questions: \textit{How can we identify the common topics binding user together? How can we detect topic based overlapping communities? How can we extract topic based expertise and temporal dynamics?}. By applying the original  LDA model on these tasks, we encountered three problems. The first one is a lack of efficiency: the complexity of the probabilistic model was prohibitive. The second problem is that the original LDA model is not enough to extract temporal and expertise information. The third one is an incomparability problem. The detected probabilities distributions cannot be compared with each other. 
+Therefore, firstly, we proposed TTD a simpler method to detect topics and overlapping communities to solve the first problem. We conducted experiments on a dataset from the popular Q\&A site StackOverflow to compare different approaches. The results indicate that for this kind of web communities our method can be a good replacement to more complicated methods for detecting overlapping communities of interests.
+Secondly, we proposed TTEA a more complex model to extract more information from user generated content and to fix the others problems. Our model can simultaneously uncover th
+e topics, activities, expertise and temporal dynamics. This extracted information can enable us to improve tasks such as: question routing, expert recommendation and community life-cycle management. Again, we conducted experiments on StackOverflow dataset. We demonstrated that TTEA shows advantages in topic modeling. It also achieves good performances on question routing task and expert detection task compared with the state of the art models. We also illustrated that our model can detect user and topic temporal dynamics which could be used on user life-cycle management.
+
+There are many future directions for this work. It is obvious that the proposed models and methods are not limited to the processing of Q\&A datasets and we intend to adapt them to other kinds of social media.

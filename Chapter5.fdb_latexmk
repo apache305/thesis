@@ -1,0 +1,15 @@
+# Fdb version 3
+["pdflatex"] 1455195464 "Chapter5.tex" "Chapter5.pdf" "Chapter5" 1455195466
+  "/usr/local/texlive/2012/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
+  "/usr/local/texlive/2012/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1136768653 1328 c834bbb027764024c09d3d2bf908b5f0 ""
+  "/usr/local/texlive/2012/texmf-dist/fonts/tfm/public/cm/cmti10.tfm" 1136768653 1480 aa8e34af0eb6a2941b776984cf1dfdc4 ""
+  "/usr/local/texlive/2012/texmf-dist/tex/latex/base/omscmr.fd" 1254151887 2109 c400bd6c901edc4a09e4d53fcffd3b3c ""
+  "/usr/local/texlive/2012/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1341108684 846150 32f09260c10acd3a5389b805e291b540 ""
+  "/usr/local/texlive/2012/texmf-var/web2c/pdftex/pdflatex.fmt" 1341108725 3691572 80746d7cec090b0770bc87079bef471d ""
+  "/usr/local/texlive/2012/texmf.cnf" 1341108668 572 7ea7194897937febeb63145e1c3a1f03 ""
+  "/usr/local/texlive/2012/texmf/web2c/texmf.cnf" 1336865692 31299 729e216d9b945005c0d4b079c0500bc9 ""
+  "Chapter5.aux" 1455193978 9025 e8b28e0206982e01dfdf93139d0ba9bd ""
+  "Chapter5.tex" 1454524360 42613 5e692ad5ba59e9b004249f8d6c1ddd6b ""
+  (generated)
+  "Chapter5.log"
+  "Chapter5.pdf"
