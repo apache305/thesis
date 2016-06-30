@@ -27,12 +27,15 @@ Figure \ref{fig:overview} presents an overview of QASM. We first use the SIOC on
 \end{figure}
 
 \subsection{QASM Vocabulary: formalize Q\&A information}
-\begin{figure}[htbp]
+%\begin{figure}[htbp]
+\begin{sidewaysfigure}
 \centering
-\includegraphics[width=3.7in]{ontologyv2.jpg}  
+%\includegraphics[width=3.7in]{ontologyv2.jpg}  
+\includegraphics[width=8in]{qasm.jpg}
 \caption{Overview of the QASM vocabulary}
 \label{fig:coreontology} 
-\end{figure}
+%\end{figure}
+\end{sidewaysfigure}
 
 From the overview, there are mainly two kinds of information to formalize. Part of them are explicit, which is the original user-generated content, such as Q\&A contents, user profile, votes, and timestamps. Part of them are implicit, which is detected by social media mining techniques, such as user interest, overlapping communities, user expertise, user activities. 
 
@@ -145,7 +148,6 @@ We use \texttt{qasm:TopicTrend} to formalize this distribution.
 
 \textbf{User Topical Expertise}: A user has expertise in different topics with different levels. For example, the topic-expertise distribution for \textit{Alice} \textit{ios}:\{{\textit{High}: 0.2, \textit{Medium}: 0.7, \textit{Low}: 0.1\} expresses that \textit{Alice}'s expertise on topic \textit{ios} is probably in medium level. We use \texttt{qasm:UserExpertise} to formalize this distribution.
 
-%\section{}
 
 \section{Summary: an effective way to manage q\&a sites}
 \label{sec:future}
