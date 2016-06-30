@@ -53,7 +53,8 @@ The QASM vocabulary\footnote{It is available online at http://ns.inria.fr/qasm/q
     Answer  & answer post & explicit & sioc:Answer \\ \hline
     Tag & tags used to label questions & explicit & sioc:Tag \\ \hline
     Word & words used in Q\&A content & explicit & qasm:Word \\ \hline
-    Topic & bag of words/tags & implicit & QASM:Topic \\ \hline     
+    TimePoint & year/month/day & explicit & QASM:TimePoint \\ \hline
+    Topic & bag of words/tags & implicit & QASM:Topic \\ \hline   
     UserInterest& User interest over topic distribution & implicit& qasm:UserInterest\\ \hline
     UserExpertise & User expertise over topic distribution &implicit& qasm:UserExpertise \\ \hline
     TopicTag &Topic over tags distribution&implicit &qasm:TopicTag \\ \hline
@@ -93,7 +94,7 @@ The QASM vocabulary\footnote{It is available online at http://ns.inria.fr/qasm/q
     qasm:hasWeight   & a topic word object associate with a weight &qasm:TopicTag &wo:Weight \\ \hline
     
     qasm:isPopularAt  & a topic is popular at a time point & qasm:Topic &  qasm:TopicYearTrend \\ \hline
-    qasm:isYear     & a topic trend object associate with a time point &qasm:TopicYearTrend  &qasm:Year \\ \hline
+    qasm:isTimePoint & a topic trend object associate with a time point &qasm:TopicYearTrend  &qasm:TimePoint \\ \hline
     qasm:hasWeight   & a topic trend object associate with a weight&qasm:TopicYearTrend  &wo:Weight \\ \hline
     
     qasm:hasActiveUser & a topic has an active user & qasm:Topic &  qasm:UserActivity \\ \hline
