@@ -4,7 +4,7 @@
 \minitoc
 
 \section{Introduction: formalizing and linking knowledge on Q\&A sites}
-Community Question Answering (CQA) services provide a platform where users can ask expert for help. Since questions and answers can be viewed and discussed and that all these traces can be searched afterwards, QA sites form a special kind of sodial media.
+Community Question Answering (CQA) services provide a platform where users can ask expert for help. Since questions and answers can be viewed and discussed and that all these traces can be searched afterwards, QA sites form a special kind of social media.
 
 % TODO: avoid repeating sentences as the following one and try to have introductions specific to the chaper (I modified the text above for that) "people with similar questions can also directly find solutions by browsing this content. Therefore, effectively managing these content is a key issue." 
 
@@ -20,17 +20,23 @@ We also differentiate between two kinds of information in our scenario.
 \item \textbf{Information explicitly generated:} this is the original user-generated content, for instance, a question, an answer, a comment, a tag etc.
 \item \textbf{Information implicitly generated:}  this information is generated as a side effect of the activity on the site. This is latent information extracted by data mining techniques, for instance, implicit social networks, detected community, traces and logs temporal information etc.
 \end{itemize}
-It is important to formalize both kinds of information and to link the obtained representations in order to benefit from both aspects in the analysis. Among the available vocabularies (e.g. in the LOV directory) the SIOC % TODO: add a REF
+
+
+
+It is important to formalize both kinds of information and to link the obtained representations in order to benefit from both aspects in the analysis. Among the available vocabularies (e.g. in the LOV directory) the SIOC\footnote{\url{http://lov.okfn.org/dataset/lov/vocabs/sioc} (accessed Aug 2016)} % TODO: add a REF
+%DONE
 ontology is the most popular vocabulary to formalize social medias, but it does not support the formalization of the latent information extracted by data mining techniques.
 
 % TODO: say in one sentence  what you will do about it e.g. use another vocabulary in addition or extend it with the needed primitives.
+%DONE
 
-In this chapter, we describe QASM (Question \& Answer Social Media), a prototype system based on social media mining and semantic web technology to manage the two main resources in the CQA sites: users and contents. We present the QASM vocabulary used to formalize  the two kinds of information. Then we briefly introduce our method to extract these latent knowledge from the CQA sites.
+In this chapter, we propose QASM (Question \& Answer Social Media) vocabulary. We extend exist vocabularies such as SIOC, FOAF\footnote{\url{http://lov.okfn.org/dataset/lov/vocabs/foaf} (accessed Aug 2016)} and extend them with needed primitives in order to formalizing explicitly/implicitly QA social media.
 
+%In this chapter, we describe QASM (Question \& Answer Social Media), a prototype system based on social media mining and semantic web technology to manage the two main resources in the CQA sites: users and contents. We present the QASM vocabulary used to formalize  the two kinds of information. Then we briefly introduce our method to extract these latent knowledge from the CQA sites.
 
 \section{QASM System Description: managing explicit and implicit knowledge}
 \subsection{Overview: combine social media mining and semantic web}
-Figure \ref{fig:overview} presents an overview of QASM. We first use the SIOC ontology\footnote{http://sioc-project.org/ontology} to construct an RDF dataset from social media data extracted from a CQA site:StackOverflow. Then we use social media mining techniques to extract topics, interests and expertise levels and temporal dyanmics from this dataset. We formalize them with the QASM vocabulary and enrich our RDF dataset with these latent information. As a result, we provide an integrated and enriched Q\&A triple store which contains both user interests, user expertise, and temporal dynamics of users'profiles and of topics. Then, we linked our dataset with DBpedia and use the resulting knowledge graph to generate labels for topics. Finally, based on the QASM RDF dataset, we can provide the users of the Q\&A site with several services to find relevant experts for a question and to search for similar questions.
+Figure \ref{fig:overview} presents an overview of QASM. We first use the SIOC ontology\footnote{\url{http://sioc-project.org/ontology} (accessed Aug 2016)} to construct an RDF dataset from social media data extracted from a CQA site:StackOverflow. Then we use social media mining techniques to extract topics, interests and expertise levels and temporal dyanmics from this dataset. We formalize them with the QASM vocabulary and enrich our RDF dataset with these latent information. As a result, we provide an integrated and enriched Q\&A triple store which contains both user interests, user expertise, and temporal dynamics of users'profiles and of topics. Then, we linked our dataset with DBpedia and use the resulting knowledge graph to generate labels for topics. Finally, based on the QASM RDF dataset, we can provide the users of the Q\&A site with several services to find relevant experts for a question and to search for similar questions.
 
 \begin{figure}%[htbp]
 \centering
@@ -54,8 +60,10 @@ Figure \ref{fig:overview} presents an overview of QASM. We first use the SIOC on
 
 As we explained before, there are mainly two kinds of information to formalize. Part of them are explicit, which is the original user-generated content, such as Q\&A contents, user profile, votes, and timestamps. Part of them are implicit, which is detected by social media mining techniques, such as user interest, overlapping communities, user expertise, user activities. 
 
-Existing work mainly focus on how to formalize the explicit part. We are focusing on extending existing work by formalizing the implicit part. Thus, we proposed QASM vocabulary. Figure \ref{fig:coreontology} provides an overview of our ontology. It reuses both the SIOC ontology and the Weighting ontology\footnote{http://smiy.sourceforge.net/wo/spec/weightingontology.html}.
-The QASM vocabulary\footnote{It is available online at http://ns.inria.fr/qasm/qasm.html} enables us to model both the explicit and implicit information of Q\&A sites. Table \ref{tab:qaontoclass}shows the main classes used in our work.
+Existing work mainly focus on how to formalize the explicit part. We are focusing on extending existing work by formalizing the implicit part. Thus, we proposed QASM vocabulary. Figure \ref{fig:coreontology} provides an overview of our ontology. It reuses both the SIOC ontology and the Weighting ontology\footnote{\url{http://smiy.sourceforge.net/wo/spec/weightingontology.html} (accessed Aug 2016)}.
+The QASM vocabulary\footnote{It is available online at \url{http://ns.inria.fr/qasm/qasm.html}} enables us to model both the explicit and implicit information of Q\&A sites. Table \ref{tab:qaontoclass}shows the main classes used in our work.
+%
+We reuse some class and property from SIOC (with soic: prefix), Dublin Core (with dcterms: prefix), Weighted-Object (with wo: prefix). 
 
 
 \begin{sidewaystable}
@@ -68,8 +76,8 @@ The QASM vocabulary\footnote{It is available online at http://ns.inria.fr/qasm/q
     Answer  & answer post & explicit & sioc:Answer \\ \hline
     Tag & tags used to label questions & explicit & sioc:Tag \\ \hline
     Word & words used in Q\&A content & explicit & qasm:Word \\ \hline
-    TimePoint & year/month/day & explicit & QASM:TimePoint \\ \hline
-    Topic & bag of words/tags & implicit & QASM:Topic \\ \hline   
+    PeriodOfTime & time interval & explicit & dcterms:PeriodOfTime \\ \hline
+    Topic & bag of words/tags & implicit & sioc:Topic \\ \hline   
     UserInterest& User interest over topic distribution & implicit& qasm:UserInterest\\ \hline
     UserExpertise & User expertise over topic distribution &implicit& qasm:UserExpertise \\ \hline
     TopicTag &Topic over tags distribution&implicit &qasm:TopicTag \\ \hline
@@ -109,8 +117,8 @@ The QASM vocabulary\footnote{It is available online at http://ns.inria.fr/qasm/q
     qasm:hasWeight   & links a TopicWord with a weight &qasm:TopicTag &wo:Weight \\ \hline
     
     qasm:isPopularAt  & links a topic with a trend declaration & qasm:Topic &  qasm:TopicYearTrend \\ \hline
-    qasm:isTimePoint & links a TopicYearTrend with a time point &qasm:TopicYearTrend  &qasm:TimePoint \\ \hline
-    qasm:hasWeight   & alinks a TopicYearTrend with a weight&qasm:TopicYearTrend  &wo:Weight \\ \hline
+    qasm:isTimePeroid & links a TopicTrend with a time interval &qasm:TopicTrend  &dcterms:PeriodOfTime \\ \hline
+    qasm:hasWeight   & alinks a TopicTrend with a weight&qasm:TopicTrend  &wo:Weight \\ \hline
     
     qasm:hasActiveUser & links a topic with an active user activity declaration & qasm:Topic &  qasm:UserActivity \\ \hline
     qasm:isUser     & links a user activity declaration with a user &qasm:UserActivity  &sioc:User \\ \hline
@@ -123,7 +131,9 @@ The QASM vocabulary\footnote{It is available online at http://ns.inria.fr/qasm/q
 \end{sidewaystable}
 
 % TODO: each and every notion above should be checked in LOV for alignment, reuse, comparison, etc.
-
+%checked and updated
+%try to reuse as much as possible. 
+%explained the added parts.
 
 Table \ref{tab:qaontoproper} shows several proprieties used in our work. Since our work mainly generates distributions, we proposed a generic pattern to formalize these distributions. As an example, we show the formalization a distribution in Figure \ref{fig:chp3ontoexample}. 
 
@@ -134,16 +144,29 @@ Table \ref{tab:qaontoproper} shows several proprieties used in our work. Since o
 \label{fig:chp3ontoexample} 
 \end{figure}
 
-In the following we explain the core classes and properties of the QASM vocabulary.
+Apart from the reused class and property, we explain several classes and properties proposed in the QASM vocabulary, and compared with existing work. 
+%alignment, resue, comparison, etc 
 
 \begin{itemize}
-\item \texttt{qasm:Topic} represents a set of tags or bag of word words related to a specified topic. In our models, tags/words belong to instances of \texttt{qasm:Topic}, we also consider different tags/words have different weights/probablities/membership for each topic.
+%\item \texttt{qasm:Topic}. SIOC, FOAF and Dublin Core  have Topic class. In FOAF, topic is defined as "a topic of some page or document",  We are different in a sense that in our definition, a topic is represented by a set of tags or a bag of word with weights. In our models, tags/words belong to instances of \texttt{qasm:Topic}, we also consider different tags/words have different weights/probablities/membership for each topic. 
+%reuse sioc topic.
+
 \item \texttt{qasm:WeightedObject} is used to describe the weight that a specified subject has with regard to a specified object. This class has four subclasses which represent question topics, users' interests, users' expertise and tag topics respectively. In fact, this class is used to model the distributions we extracted from the original data. For example, topic-tag distribution, user-interest distribution.
-\item \texttt{qasm:interestIn} is used to describe the user-interest distribution. This property is different from \texttt{foaf:interest} for its range. In FOAF people are interested in documents, while in QASM a user is interested in a topic to a certain degree (a weight).
-\item \texttt{qasm:expertiseIn} is used to describe the user-expertise distribution. A user has different weights for different topics.
-\item \texttt{qasm:isPopularAt} is used to describe the topic-time distribution. A topic has different popularity at different time point.
+%not similar work
+
+\item \texttt{qasm:interestIn} is used to describe the user-interest distribution. This property is different from \texttt{foaf:interest} for its range. In FOAF people are interested in documents, while in QASM a user is interested in a topic to a certain degree (a weight). In addition, this part of work is quite similar to WeightedInterest\footnote{\url{http://smiy.sourceforge.net/wi/spec/weightedinterests.html} (accessed Aug 2016)}. The difference is that we mainly focus on formalize the user-topic interest distribution on Q\&A sites. Besides, we also formalize expertise, trend, activity distribution on Q\&A sites.
+%cant align with foaf interst, but similar to wi. 
+
+\item \texttt{qasm:expertiseIn} is used to describe the user-expertise distribution. A user has different weights for different topics. In FRAPO ontology\footnote{\url{http://purl.org/cerif/frapo/hasExpertise} (accessed Aug 2016) } has a 'hasExpertise' relation to desercibe a user has expertise in specified research area. Our work not only describe a user has expertise on a topic, but also formalize to what extent a user has expertise.
+%similar to frapo:has expertise
+
+\item \texttt{qasm:isPopularAt} is used to describe the topic-time distribution. A topic has different popularity at different time interval.
+%did not found any similar.
+
 \item \texttt{qasm:hasActiveUser} is used to describe the topic-user distribution. Different users perform different activities on a topic.
+%did not found any similar
 \end{itemize}
+
 
 % TODO: have yu looked at the SCOT ontology? have you searched for your terms in the LOV directory ? example FOAF interest relation ? e.g. http://lov.okfn.org/dataset/lov/terms?q=interest
 % This should be done for every primitive and the reasons for aligning or not should be given in the thesis. 
@@ -152,24 +175,33 @@ In the following we explain the core classes and properties of the QASM vocabula
 \subsection{Social media mining: extract the latent knowledge}
 
 Topics, interests, expertise, activity, trend are implicit information in the available raw CQA data. We use social media mining techniques to extract this knowledge.
-In Chapter \ref{chap:ttd}, we propose a Tag Tree Distribution method to efficiently extract topic from tags while preserving good quality. Besides, in Chapter \ref{chap:ttea}, we jointly model topic, interest, expertise and trend to extract the relations between them, such as user-topic, topic-time, user-expertise, user-interest etc. In addtion, Chapter \ref{chap:label} proposes a method using DBpedia to generate labelq for the bags of words  used to define a topic and therefore rpovide a label for the shared interest of a community. 
+In Chapter \ref{chap:ttd}, we propose a Tag Tree Distribution method to efficiently extract topic from tags while preserving good quality. Besides, in Chapter \ref{chap:ttea}, we jointly model topic, interest, expertise and trend to extract the relations between them, such as user-topic, topic-time, user-expertise, user-interest etc. In addtion, Chapter \ref{chap:label} proposes a method using DBpedia to generate labels for the bags of words  used to define a topic and therefore povide a label for the shared interest of a community. 
 In the following we sammarize the main notion we will use in this thesis and give some examples of the latent knowledge extracted by our models. We also indicate the related vocabulary for each of them.
 
 \begin{itemize}
-\item \textbf{Topic}: A bag of words or tags which are closely related. Words are the content of questions or answers, tags are explicit attached as such to questions. For example, the topic-tag distribution \textit{Database}:\{{\textit{mysql}: 0.5, \textit{sql}: 0.3, \textit{query}: 0.2\}. expresses that topic \textit{Database} is related to tags \textit{mysql}, \textit{sql}, and \textit{query}. We use \texttt{qasm:TopicTag} and \texttt{qasm:TopicWord} to formalize this distribution.
+\item \textbf{Topic}: A bag of words or tags which are closely related. Words are the content of questions or answers, tags are explicit attached as such to questions. For example, the topic-tag distribution \textit{Database}:\{\textit{mysql}: 0.5, \textit{sql}: 0.3, \textit{query}: 0.2\}. expresses that topic \textit{Database} is related to tags \textit{mysql}, \textit{sql}, and \textit{query}. We use \texttt{qasm:TopicTag} and \texttt{qasm:TopicWord} to formalize this distribution.
 
-\item \textbf{User Topical Interest}: A user is interested in different topics with different levels. For example, the user-topic distribution \textit{Alice}:\{{\textit{Database}: 0.8, \textit{Java}: 0.2\} expresses that \textit{Alice} prefers to answer questions related to \textit{Database}, but rather not about \textit{Java}. We use \texttt{qasm:UserInterest} to formalize this distribution.
+\item \textbf{User Topical Interest}: A user is interested in different topics with different levels. For example, the user-topic distribution \textit{Alice}:\{\textit{Database}: 0.8, \textit{Java}: 0.2\} expresses that \textit{Alice} prefers to answer questions related to \textit{Database}, but rather not about \textit{Java}. We use \texttt{qasm:UserInterest} to formalize this distribution.
 
-\item \textbf{User Topical Activity}:  Different users are interested in the same topic with different levels. For example, the topic-user distribution \textit{Database}:\{{\textit{Alice}: 0.8, \textit{Bob}: 0.2\} expresses that \textit{Alice} prefers to answer questions related to \textit{Database}, while \textit{Bob} is not willing to contribute answers to it. We use \texttt{qasm:UserActivity} to formalize this distribution.
+\item \textbf{User Topical Activity}:  Different users are interested in the same topic with different levels. For example, the topic-user distribution \textit{Database}:\{\textit{Alice}: 0.8, \textit{Bob}: 0.2\} expresses that \textit{Alice} prefers to answer questions related to \textit{Database}, while \textit{Bob} is not willing to contribute answers to it. We use \texttt{qasm:UserActivity} to formalize this distribution.
 
-\item \textbf{Topic Trend}: A topic is popular at different points in time with different levels. For example,the topic-time distribution \textit{Database}:\{{\textit{May/2013}: 0.2, \textit{June/2013}: 0.3, \textit{July/2013}: 0.5\} expresses that the topic \textit{Database} is increasingly popular. % while the topic \textit{java} remains stable. 
+\item \textbf{Topic Trend}: A topic is popular at different points in time with different levels. For example,the topic-time distribution \textit{Database}:\{\textit{May/2013}: 0.2, \textit{June/2013}: 0.3, \textit{July/2013}: 0.5\} expresses that the topic \textit{Database} is increasingly popular. 
+
 We use \texttt{qasm:TopicTrend} to formalize this distribution.
 
-\item \textbf{User Topical Expertise}: A user has expertise in different topics with different levels. For example, the topic-expertise distribution for \textit{Alice} \textit{ios}:\{{\textit{High}: 0.2, \textit{Medium}: 0.7, \textit{Low}: 0.1\} expresses that \textit{Alice}'s expertise on topic \textit{ios} is probably of medium level. We use \texttt{qasm:UserExpertise} to formalize this distribution.
+\item \textbf{User Topical Expertise}: A user has expertise in different topics with different levels. For example, the topic-expertise distribution for \textit{Alice} \textit{ios}:\{\textit{High}: 0.2, \textit{Medium}: 0.7, \textit{Low}: 0.1\} expresses that \textit{Alice}'s expertise on topic \textit{ios} is probably of medium level. We use \texttt{qasm:UserExpertise} to formalize this distribution.
 \end{itemize}
 
 
 %TODO you are missing one section describing the structure of the Stackoverflow data (dump), its format and the mapping between this structure and your vocabulary ; in other words in the introduction you say you will present the eaxtraction an formalization but you did not cover the extraction/mapping part. You need to add that to this chapter.
+
+\subsection{Mapping: formalize with QASM vocabulary}
+
+
+
+
+
+
 
 \section{Summary: an effective way to manage q\&a sites}
 \label{sec:future}
