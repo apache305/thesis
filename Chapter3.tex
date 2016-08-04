@@ -195,9 +195,36 @@ We use \texttt{qasm:TopicTrend} to formalize this distribution.
 
 %TODO you are missing one section describing the structure of the Stackoverflow data (dump), its format and the mapping between this structure and your vocabulary ; in other words in the introduction you say you will present the eaxtraction an formalization but you did not cover the extraction/mapping part. You need to add that to this chapter.
 
-\subsection{Mapping: formalize with QASM vocabulary}
+\subsection{Mapping: formalize Stackoverflow with QASM vocabulary}
 
+We obtained the data dump of Stackoverflow from the website \footnote{\url{https://archive.org/details/stackexchange} (accessed Aug 2016)}. It includes all user-contributed content on the Stack Exchange network. Each site is formatted as a separate archive consisting of XML files. Each dataset includes Posts, Users, Votes, Comments, PostHistory and PostLinks and the schema information.
 
+A first step is to mapping the original dataset to QASM vocabulary. Since the schema of the data dump are well organized and designed, we just simply mapping them one by one. We reuse as many as existing vocabularies: SIOC ontology (with prefix sioc: or tsioc:), Dublin Core (with prefix dcterm:), Reivew ontology (with prefix rev:), NEPOMUK Information Element Core Ontology (with prefix nie:). For the "Posts.xml", the original schema and mapping vocabularies are list in table \ref{tab:mappingstackoverflow}.
+
+\begin{sidewaystable}
+    \centering
+    \begin{tabular}{c|c}
+    \hline
+    Original Schema in Data dump & Mapping vocabulary in QASM \\ \hline
+        Id       &  sioc:Id \\ \hline
+        PostTypeId(1: Question, 2: Answer) & tsioc:Question, tsioc:Answer   \\ \hline
+        ParentID (only present if PostTypeId is 2) & sioc:reply\_of   \\ \hline
+        AcceptedAnswerId (only present if PostTypeId is 1) & qasm:acceptedAnswer  \\ \hline 
+        CreationDate & dcterm:created \\ \hline
+        Score & rev:totalVotes \\ \hline
+        ViewCount & sioc:num\_views \\ \hline
+        Body & nie:htmlContent\\ \hline
+        OwnerUserId & sioc:has\_owner \\ \hline
+        LastActivityDate & sioc:last\_activity\_date\\ \hline
+        Title & dcterms:title\\ \hline
+        Tags & sioc:Tag\\ \hline
+        AnswerCount & sioc:num\_replies\\ \hline
+        CommentCount & qasm:num\_comments\\ \hline
+        FavoriteCount & qasm:num\_favorites\\ \hline
+    \end{tabular}
+    \caption{Mapping between original data dump of Stackoverflow and QASM vocabulary}
+    \label{tab:mappingstackoverflow}
+\end{sidewaystable}
 
 
 
