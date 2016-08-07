@@ -118,13 +118,10 @@ The second result is the probability for a user to belong to different topics of
 Table \ref{tab:ldaresult1} shows eight detected topics of interest, one column for one topic, and ten rows for the top 10 tags for each topic, sorted by descending weights (a tag's weight is the probability of the tag to belong to the topic).  
 This table shows that each topic has a clear and focused interest. For example, topic 1 has c-development related tags, topic 2 has java-development related tags, topic 3 has c\#-development related tags, topic 4 has html-development related tags, topic 5 has iphone-development related tags, topic 6 has database related tags, topic 7 has linux-development related tags, topic 8 has non-programming related tags. 
 Moreover, weights reflect the relevance of tags to each topic. For example, topic 5 is concerned with iphone-development, its top 3 tags are 'iphone', 'objective-c' and 'cocoa' which are very relevant to it.
-\begin{table}[htbp]
-\tiny
-\caption{Top 10 related tags for detected topics of interest}
-\label{tab:ldaresult1}
+\begin{sidewaystable}
 \centering
-\begin{tabular}{|p{40pt}||p{40pt}||p{40pt}||p{40pt}|}
-%\begin{tabular}{|l|l|l|l|}
+%\begin{tabular}{|p{40pt}||p{40pt}||p{40pt}||p{40pt}|}
+\begin{tabular}{|l|l|l|l|}
 \hline
 \textbf{topic1} & \textbf{topic2} & \textbf{topic3} & \textbf{topic4} \\
 \hline
@@ -174,19 +171,21 @@ Moreover, weights reflect the relevance of tags to each topic. For example, topi
  xslt(0.021)& \textbf{stored-procedures} (0.017)& \textbf{bash}(0.013)& \textbf{design}(0.014) \\ 
 \hline
 \end{tabular}
-\end{table}
+\caption{Top 10 related tags for detected topics of interest}
+\label{tab:ldaresult1}
+\end{sidewaystable}
 
 Table \ref{tab:ldaresult2} shows six randomly chosen users and their top 10 tags. The first row contains user ids, the second row contains their detected topics of interest with their probability. The following ten rows show the top 10 tags for each user. We replaced topic ids with topic names which we have assigned to them according to their associated tags.
-\begin{table}[htbp]
-\tiny
-\caption{Detected topics of interest}
-\label{tab:ldaresult2}
+\begin{sidewaystable}%[htbp]
 \centering
-\begin{tabular}{|p{60pt}|p{60pt}|p{60pt}|}
+%\begin{tabular}{|p{60pt}|p{60pt}|p{60pt}|}
+\begin{tabular}{l|l|l}
 \hline
 user\_21886&user\_14860&user\_15401\\
 \hline
-\textbf{\textcolor{blue}{html-development}} (0.284), \textbf{\textcolor{brown}{c-development}} (0.275)& \textbf{\textcolor{blue}{c-development}} (0.333), \textbf{\textcolor{brown}{linux-development}} (0.196)&\textbf{\textcolor{blue}{database-related}} (0.383), \textbf{\textcolor{brown}{non-programming-related}} (0.290)\\
+\textbf{\textcolor{blue}{html-development}} (0.284)  & \textbf{\textcolor{blue}{c-development}} (0.333) &\textbf{\textcolor{blue}{database-related}} (0.383)\\
+ \textbf{\textcolor{brown}{c-development}} (0.275) &  \textbf{\textcolor{brown}{linux-development}} (0.196)& \textbf{\textcolor{brown}{non-programming-related}} (0.290)\\
+
 \hline
 python(93)&\textcolor{blue}{c}(152)&\textcolor{blue}{sql-server}(108)\\
 %\hline
@@ -211,7 +210,9 @@ python(93)&\textcolor{blue}{c}(152)&\textcolor{blue}{sql-server}(108)\\
 \hline
 user\_78374&user\_53897&user\_23743\\
 \hline
-\textbf{\textcolor{blue}{non-programming-related}} (0.493), \textbf{\textcolor{brown}{linux-development}} (0.316)&\textbf{\textcolor{blue}{java-development}} (0.835), \textbf{\textcolor{brown}{non-programming-related}} (0.075)&\textbf{\textcolor{blue}{iphone-development}} (0.683), \textbf{\textcolor{brown}{non-programming-related}} (0.155)\\
+\textbf{\textcolor{blue}{non-programming-related}} (0.493)&\textbf{\textcolor{blue}{java-development}} (0.835)&\textbf{\textcolor{blue}{iphone-development}} (0.683)\\
+\textbf{\textcolor{brown}{linux-development}} (0.316)&\textbf{\textcolor{brown}{non-programming-related}} (0.075)& \textbf{\textcolor{brown}{non-programming-related}} (0.155)\\
+
 \hline
 \textcolor{blue}{subjective}(35)&\textcolor{blue}{java}(366)&\textcolor{blue}{objective-c}(73)\\
 %\hline
@@ -234,7 +235,9 @@ c++(10)&\textcolor{brown}{best-practices}(16)&\textcolor{blue}{osx}(17)\\
 \textcolor{blue}{coding-style}(5)&c\#(9)&c(8)\\
 \hline
 \end{tabular}
-\end{table}
+\caption{Detected topics of interest}
+\label{tab:ldaresult2}
+\end{sidewaystable}
 
 \section{Discussion: the limitation and problems}
 The above experiments show that, by applying topic models on Q\&A website, we are able to detect overlapping communities, and the detected topics are useful to explain each corresponding community. In our work, we directly use each topic to represent a community.
