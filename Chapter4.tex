@@ -1,16 +1,19 @@
-\chapter{Applying LDA model on Overlapping Community Detection}
+\chapter{Adapting Latent Dirichlet Allocation to Overlapping Community Detection}
 \doublespacing
 \label{chap:lda}
 \minitoc
 
-\section{Introduction of LDA Approach}
-In Natural Language Processing (NLP), Latent Dirichlet Allocation (LDA) \cite{blei2003latent} is a classical document clustering method. It is used to detect latent topics from documents by constructing a document-topic-word three layer probabilistic graphical model. In this three layer model, document and word can be observed from dataset, while topic is a hidden layer, which could be estimated by the observed data.  
-In StackOverflow, a user submits a question, then assigns 1$\sim$5 tags to indicate the key points of this question. Other users who are interested in the question may provide answers to the question or comments to other answers. The basic social graph in StackOverflow is a question-answer graph. As tags attached to a question can reflect the boundary or domain of it, users answering the question can be considered as interested by this domain. As a result, a basic approach is as follows. A user answering a question acquires tags attached to this question. Gradually, each user acquires a list of tags associated with their frequencies. If we treat a user as a document, tags acquired by the user as words in a document, 
-then community detection could also be considered as a clustering problem. User with similar topics of interest are partitioned into the same cluster as a community of interest.
+\section{Introduction to the Latent Dirichlet Allocation Adaptation}
+In Natural Language Processing (NLP), Latent Dirichlet Allocation (LDA) \cite{blei2003latent} is a classical document clustering method, a Bayesian network that models how documents in a corpus are topically related.
+It is used to detect latent topics from documents by constructing a three-layer probabilistic graphical model: document-topic-word. In this three-layer model, documents and words can be observed from a dataset, while topics are a hidden layer which has to be estimated from the observed data.  
+In StackOverflow, a user submits a question, then assigns 1$\sim$5 tags to indicate the key topics touched by this question. Other users who are interested in the question may provide answers to the question or comment on the question or others' answers. Therefore the main structuring graph in StackOverflow is the question-answer graph. As tags attached to a question  reflect its scope and domain, users answering a question can be considered as interested by this domain. As a result, a first approach is to consider that a user answering a question acquires the tags attached to this question and gradually, each user acquires a list of tags associated with frequencies. If we treat a user as a document and tags acquired by the user as words in a document, then community detection can be considered as a clustering problem where users with similar topics of interest are grouped into the same cluster forming a community of interest.
 
-Similarly to \cite{Li:2010:CTM:1871437.1871673}, we applied the classic LDA method to construct a users-topics-tags model to detect latent topics of interest from the tags acquired by users and then cluster users into different topics. The output of the model consists in two probability distributions:
-1) a User-Topic distribution to describe to what extent a user is interested in different topics.
-2) a Topic-Tag distribution to describe to what extent a topic is related to different tags.
+Similarly to \cite{Li:2010:CTM:1871437.1871673}, we applied the classic LDA method to construct a users-topics-tags model to detect latent topics of interest from the tags acquired by users and then cluster users into different topics. The output of the model consists of two probability distributions:
+\begin{enumerate}
+ \item a User-Topic distribution to describe to what extent a user is interested in the different topics.
+ \item a Topic-Tag distribution to describe to what extent a topic is related the different tags.
+\end{enumerate}
+
 
 
 The formalization of this model is given by equation~\ref{eq:general}: 
@@ -20,20 +23,24 @@ P(t|u)=P(t|z)*P(z|u)
 \end{equation}
 where $t$ denotes a tag, $z$ denotes a latent topic, $u$ denotes a user. The probability of a tag for a user is the result of multiplying the probability of this tag for a topic and the probability of this topic for the user.
 
-The plate notation of this model is presented in Figure \ref{fig:lda}. 
-The dependencies among the many variables can be captured by the direction of line. 
-The boxes represent replicated variables, which are users, interests and tags. The outer boxes represent users, while the inner boxes represent the repeated choice of topics and tags for a user. The parameters of this model are explained in Table \ref{tab:parameters}.
-$M$ and $V$ are given while $K$, $\alpha$ and $\beta$ can be chosen. $T$ is observed in users' tag lists. Other variables are latent variables which have to be estimated.
+%TODO: Fab: I changed the text below please check it is correct
+Probabilistic graphical models (PGM) express the conditional dependence structure between random variables as a graph. 
+The plate notation of the PGM of our model is presented in Figure \ref{fig:lda}. 
+The variables appear as blue disks if the variable is observed and white disks if the variable is hidden (guessed).
+The dependencies among the variables are captured by the direction of the edges. 
+The boxes represent replicated variables, which are users, topics (interests) and tags. The outer boxes represent users, while the inner boxes represent the repeated choice of topics and tags for a user. The parameters of this model are explained in Table \ref{tab:parameters}.
+$M$ and $V$ are given while $K$, $\alpha$ and $\beta$ can be chosen. $T$ is observed through the users' tag lists. Other variables are latent variables which have to be estimated.
 
 \begin{figure}[htbp]\centering
-\includegraphics[ width=2.0in]{lda.jpg}  % "pdflatex"
+\includegraphics[ width=3.0in]{lda.jpg}  % "pdflatex"
 \caption{User-Topic-Tag (LDA) Model}
 \label{fig:lda}
 \end{figure}
 
-The intuition behind this model is that users choose their topics and topics generate tags.
+The intuition behind this model is that users choose their topics and that these chosen topics drive the generation of the tags.
 The generative process can be summarized as follows:
 
+%TODO : reformat process as code / pseudo algorithm style
 \noindent\rule[0.5ex]{\linewidth}{1pt}
 \textbf{Process of generating a user's tag list}\\
 \noindent \textbf{for} interest k \textbf{in} [1..K]:\\
@@ -109,15 +116,18 @@ Then with a Gibbs sampling, we can estimate $\theta$ and $\phi$ by equation \ref
 where $C_u^k$ is the number of tags assigned to topic $k$ of user $u$ , $C_k^t$ is the number of tags $t$ assigned to topic $k$.
 
 
-\section{Experiments: find topics and communities}
-We run the above described model on a dataset from the popular Q\&A site StackOverflow, each user being represented by her tag list as explained before. We just illustrate some of the results to show the effectiveness of this model.
+\section{First experiments: find topics and communities with adapted LDA}
+%TODO: FAB: here we are missing details on (1) the dataset characteristics - the dataset of your PhD must be described either at the begining and reference with a unique identifier and reference to the description section if they are used in several chapters OR before the experiment where they are used if they are used only once (2) the implementations, languages, libaries, etc. you used to perform the experiment.
+
+We ran the above described model on a dataset from the popular Q\&A site StackOverflow, each user being represented by her tag list as explained before. We just illustrate some of the results to show the effectiveness of this model.
 
 A first result is the probability for each tag to belong to each topic. This is  shown in Table \ref{tab:ldaresult1}. 
 The second result is the probability for a user to belong to different topics of interest. This is shown in Table \ref{tab:ldaresult2}. 
+%TODO: FAB: you can add graphical views of these data.
 
-Table \ref{tab:ldaresult1} shows eight detected topics of interest, one column for one topic, and ten rows for the top 10 tags for each topic, sorted by descending weights (a tag's weight is the probability of the tag to belong to the topic).  
+Table \ref{tab:ldaresult1} shows eight examples of the detected topics of interest, each column showing one topic, and the ten rows giving the top 10 tags for each topic, sorted by descending weights. The weight of a tag is the probability of the tag to belong to the topic.  
 This table shows that each topic has a clear and focused interest. For example, topic 1 has c-development related tags, topic 2 has java-development related tags, topic 3 has c\#-development related tags, topic 4 has html-development related tags, topic 5 has iphone-development related tags, topic 6 has database related tags, topic 7 has linux-development related tags, topic 8 has non-programming related tags. 
-Moreover, weights reflect the relevance of tags to each topic. For example, topic 5 is concerned with iphone-development, its top 3 tags are 'iphone', 'objective-c' and 'cocoa' which are very relevant to it.
+Moreover, weights reflect the relevance of tags to each topic. For example, topic 5 is concerned with iphone-development and its top 3 tags are 'iphone', 'objective-c' and 'cocoa' which are indeed very relevant.
 \begin{sidewaystable}
 \centering
 %\begin{tabular}{|p{40pt}||p{40pt}||p{40pt}||p{40pt}|}
@@ -240,7 +250,23 @@ c++(10)&\textcolor{brown}{best-practices}(16)&\textcolor{blue}{osx}(17)\\
 \end{sidewaystable}
 
 \section{Discussion: the limitation and problems}
-The above experiments show that, by applying topic models on Q\&A website, we are able to detect overlapping communities, and the detected topics are useful to explain each corresponding community. In our work, we directly use each topic to represent a community.
+The above experiments verified that, by applying topic models on Q\&A website, we are ideed able to detect overlapping communities, and that the detected topics are meaningful and could be used to explain the shared interest of each corresponding community as in our work, we directly use each topic to represent a community of interest.
 
-However, we found that there are three limitations when applying LDA models to our task. The first one is a lack of efficiency: the complexity of the probabilistic model was prohibitive. The second limitation is that the  original LDA model does not enable to extract temporal and expertise information. The third limitation is that the detected probability distributions cannot be compared with each other. 
-Therefore, we extended our work in two directions. First, we developed a more simple method to detect topics and overlapping communities to solve the first problem: the TTD method is presented in Chapter \ref{chap:ttd}. Second, we propose a more complex model to extract more information from user generated content to answer the two other limitations: the TTEA method is presented in Chapter \ref{chap:ttea}.
+However, we found that there are three limitations when applying LDA models to our task:
+
+\begin{itemize}
+  \item The first one is a lack of efficiency: the complexity of the probabilistic model was prohibitive.
+  %TODO: FAB you should provide details on the computation time, complexity, etc. to make your point
+  \item The second limitation is that the  original LDA model does not enable to extract temporal and expertise information. 
+  %TODO: FAB explain why i.e. what is missing in the model to achieve that
+  \item The third limitation is that the detected probability distributions cannot be compared with each other.
+  %TODO: FAB explain why i.e. what noramilization would be required to do that AND why this would be useful
+\end{itemize}
+
+Therefore, in the rest of this thesis we extended our work in two directions:
+
+\begin{enumerate}
+ \item First, we developed a more simple method to detect topics and overlapping communities to solve the first problem: the TTD method is presented in Chapter \ref{chap:ttd}.
+  \item Second, we propose a more complex model to extract more information from user generated content to answer the two other limitations: the TTEA method is presented in Chapter \ref{chap:ttea}.
+\end{enumerate}
+ 
