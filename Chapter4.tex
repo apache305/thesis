@@ -24,9 +24,10 @@ P(t|u)=P(t|z)*P(z|u)
 where $t$ denotes a tag, $z$ denotes a latent topic, $u$ denotes a user. The probability of a tag for a user is the result of multiplying the probability of this tag for a topic and the probability of this topic for the user.
 
 %TODO: Fab: I changed the text below please check it is correct
+%no problem.
 Probabilistic graphical models (PGM) express the conditional dependence structure between random variables as a graph. 
 The plate notation of the PGM of our model is presented in Figure \ref{fig:lda}. 
-The variables appear as blue disks if the variable is observed and white disks if the variable is hidden (guessed).
+The variables appear as white disks if the variable is observed and blue disks if the variable is hidden (guessed), and blue disk written $\alpha$ and $\beta$ are hyper parameters of the model.
 The dependencies among the variables are captured by the direction of the edges. 
 The boxes represent replicated variables, which are users, topics (interests) and tags. The outer boxes represent users, while the inner boxes represent the repeated choice of topics and tags for a user. The parameters of this model are explained in Table \ref{tab:parameters}.
 $M$ and $V$ are given while $K$, $\alpha$ and $\beta$ can be chosen. $T$ is observed through the users' tag lists. Other variables are latent variables which have to be estimated.
@@ -39,18 +40,41 @@ $M$ and $V$ are given while $K$, $\alpha$ and $\beta$ can be chosen. $T$ is obse
 
 The intuition behind this model is that users choose their topics and that these chosen topics drive the generation of the tags.
 The generative process can be summarized as follows:
-
 %TODO : reformat process as code / pseudo algorithm style
-\noindent\rule[0.5ex]{\linewidth}{1pt}
-\textbf{Process of generating a user's tag list}\\
-\noindent \textbf{for} interest k \textbf{in} [1..K]:\\
-\indent draw topic tag distribution $\phi(k)$ $\sim$ Dir($\beta$)\\
-\noindent \textbf{for} user $m \in [1,M]$:\\
-\indent draw a user-topic distribution $\theta(m)$ $\sim$ Dir($\alpha$)\\  
-\indent \textbf{for} each tag $n \in$   user $m$'s tag list, where $n~\in~[1,N_m]$, $m~\in~[1..M]$\\
-\indent \indent draw topic $z_{m,n}$  $\sim$ Multi($\theta(m)$)\\
-\indent \indent draw tag $t_{m,n}$ $\sim$ Multi($\phi(z_{m,n})$)\\ 
-\noindent\rule[0.5ex]{\linewidth}{1pt}
+%done
+
+\begin{algorithm}%[htp]
+\begin{algorithmic}[1]
+\label{algo:algoldagenerateprocess}
+\State \textbf{Process of generating a user’s tag list} 
+
+\For { \textit{topic k} \textbf{in} \textit{[1...K]} }
+\State draw topic-tag distribution $\phi(k)$ $\sim$ Dir($\beta$)
+\EndFor
+\For { \textit{user m} \textbf{in} \textit{[1...M]} }
+\State draw a user-topic distribution $\theta(m)$ $\sim$ Dir($\alpha$)
+\EndFor
+\For { \textit{tag} $T_{m,n}$ \textbf{in} \textit{ n \in [1...N_m], m \in [1...M]}}
+
+\State draw topic $z_{m,n}$  $\sim$ Multi($\theta(m)$)
+\State draw tag $t_{m,n}$ $\sim$ Multi($\phi(z_{m,n})$)
+
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+
+
+%\noindent\rule[0.5ex]{\linewidth}{1pt}
+%\textbf{Process of generating a user's tag list}\\
+%\noindent \textbf{for} interest k \textbf{in} [1..K]:\\
+%\indent draw topic tag distribution $\phi(k)$ $\sim$ %Dir($\beta$)\\
+%\noindent \textbf{for} user $m \in [1,M]$:\\
+%\indent draw a user-topic distribution $\theta(m)$ %$\sim$ Dir($\alpha$)\\  
+%\indent \textbf{for} each tag $n \in$   user $m$'s tag %list, where $n~\in~[1,N_m]$, $m~\in~[1..M]$\\
+%\indent \indent draw topic $z_{m,n}$  $\sim$ %Multi($\theta(m)$)\\
+%\indent \indent draw tag $t_{m,n}$ $\sim$ %Multi($\phi(z_{m,n})$)\\ 
+%\noindent\rule[0.5ex]{\linewidth}{1pt}
 
 \begin{table}[htbp]
 \caption{Model parameters}
@@ -119,11 +143,34 @@ where $C_u^k$ is the number of tags assigned to topic $k$ of user $u$ , $C_k^t$ 
 \section{First experiments: find topics and communities with adapted LDA}
 %TODO: FAB: here we are missing details on (1) the dataset characteristics - the dataset of your PhD must be described either at the begining and reference with a unique identifier and reference to the description section if they are used in several chapters OR before the experiment where they are used if they are used only once (2) the implementations, languages, libaries, etc. you used to perform the experiment.
 
-We ran the above described model on a dataset from the popular Q\&A site StackOverflow, each user being represented by her tag list as explained before. We just illustrate some of the results to show the effectiveness of this model.
+%done
+We ran the above described model on a dataset from the popular Q\&A site StackOverflow between 2008 and 2009, which is available online\footnote{\url{https://archive.org/details/stackexchange}}. Some basic statistics of the dataset are given in Table \ref{tab:stackoverflowdata}. We see that the total number of users arround 100K and among them, 47K users submitted at least one question, and 54K users answered at least one question. The total number of tags attached to questions is 24K, and 20\% of them are used more than 10 times. The frequency of tags follows a power law distribution. The total number of posts is 1.1M; among them there are 242K questions and 870K answers. Each question is attached with 1 to 5 tag as a tag list. Each user being represented by her tag lists. We use python implement the LDA algorithm to create a user-topic-tag model as explained above.
+
+
+\begin{table}[htp]
+\caption{Basic statistics of the stackoverflow dataset}
+\label{tab:stackoverflowdata}
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{item} & \textbf{description} \\
+\hline
+total users & 103K (47K questioner, 54K answerer)\\
+\hline
+total tags & 24K (20\% used more than 10 times)\\
+\hline
+total posts & 1.1M (question 242K, answer 870K) \\
+\hline
+\end{tabular}
+\end{table}
+
+
+
 
 A first result is the probability for each tag to belong to each topic. This is  shown in Table \ref{tab:ldaresult1}. 
 The second result is the probability for a user to belong to different topics of interest. This is shown in Table \ref{tab:ldaresult2}. 
 %TODO: FAB: you can add graphical views of these data.
+
 
 Table \ref{tab:ldaresult1} shows eight examples of the detected topics of interest, each column showing one topic, and the ten rows giving the top 10 tags for each topic, sorted by descending weights. The weight of a tag is the probability of the tag to belong to the topic.  
 This table shows that each topic has a clear and focused interest. For example, topic 1 has c-development related tags, topic 2 has java-development related tags, topic 3 has c\#-development related tags, topic 4 has html-development related tags, topic 5 has iphone-development related tags, topic 6 has database related tags, topic 7 has linux-development related tags, topic 8 has non-programming related tags. 
@@ -255,12 +302,24 @@ The above experiments verified that, by applying topic models on Q\&A website, w
 However, we found that there are three limitations when applying LDA models to our task:
 
 \begin{itemize}
-  \item The first one is a lack of efficiency: the complexity of the probabilistic model was prohibitive.
+  \item The first one is a lack of efficiency: the complexity of the probabilistic model was prohibitive. \cite{chp7ldatimecomplexity} shows that the complexity of each iteration of the Gibbs sampling for LDA is linear with the number of topic and the number of documents, which is $O(kn)$, $k$ representing the number of topic, $n$ representing the number of post Besides, \cite{griffiths2004finding} proved that LDA model requires a few hundreds of iterations to obtain stable topic distribution. Thus, it is necessary to improve the efficiency.
   %TODO: FAB you should provide details on the computation time, complexity, etc. to make your point
-  \item The second limitation is that the  original LDA model does not enable to extract temporal and expertise information. 
+  %done
+  \item The second limitation is that the original LDA model does not enable to extract temporal and expertise information. The observed data in LDA model are only user and tag/word. However, there are actually more information could be observed in the dataset, such as temporal information and vote information. We could expand the original LDA model to enable it extract temporal and expertise information, which could be used to solve question routing task, etc.
   %TODO: FAB explain why i.e. what is missing in the model to achieve that
-  \item The third limitation is that the detected probability distributions cannot be compared with each other.
+  \item The third limitation is that the detected probability distributions cannot be compared with each other.  Let us explain this in detail. A three-layer LDA model (user-topic-word) generates two kinds of distributions, a user-topic distribution and a topic-word distribution, which describe to what extent a user is interested in different topics and to what extent a keyword or a tag is related to different topics. 
+However, as shown in figure~\ref{fig:usertopic}, the same user-topic distribution could be generated by different training data (assume that the hidden variable topic is generated by Gibbs sampling~\cite{griffiths2004finding}), which means that user-topic distributions are incomparable among users. For the upper distribuion of figure~\ref{fig:usertopic}, \emph{Alice} is more active in topic \emph{music}, but for the lower one, \emph{Bob} is more active. In order to avoid such a problem, we propose a post-process method for the original LDA model to extract such information. 
+
+\begin{figure}
+\centering
+\includegraphics[ width=5.1in]{usertopic.jpg}  
+%\caption{Different ways to estimate probabilities with Gibbs sampling results}
+\caption{Different ways to estimate probabilities with topic assignment counts, the upper table: per-user topic distribution; the bottom table: per-topic user distribution}
+%\caption{Two examples of topic assignment counts normalization per user and per topic.
+\label{fig:usertopic} 
+\end{figure}
   %TODO: FAB explain why i.e. what noramilization would be required to do that AND why this would be useful
+  %done
 \end{itemize}
 
 Therefore, in the rest of this thesis we extended our work in two directions:
