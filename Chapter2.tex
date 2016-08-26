@@ -8,10 +8,7 @@
 In this chapter, we review the related topics for the background knowledge for this thesis and provide a state of the art review of related literature. First, We summerize background knowledge on social Web and semantic Web.
 Second, we provide an introduction to the collaborative project OCKTOPUS in which this Ph.D. took place.
 We then discuss the state of the art approaches to community detection, topic modelling and temporal analysis in question-answering sites, and to question-answering site management. 
-our research questions.
 Finally, we define the focus of this thesis by identifying the research questions addressed and by  positioning our contribution with regard to the state of the art.
-%NOTE Cath check this introduction after answering my notes about the structure of the end of this chapter
-%okay.
 
 \section{Social Semantic Web: combine social network analysis and Semantic Web}
 
@@ -179,9 +176,7 @@ The Web Ontology Language (OWL) builds on top of RDFS and provides a language fo
 %NOTE FAB: then you should have a section on the vocabularies uou reuse with SIOC but also Dublin Core and FOAF no ? SKOS? when I look at section " QASM Vocabulary: formalize latent information" I think you use and could use more vocabularies than SIOC and they should all be introduced here.
 
 \subsubsection{Vocabularies used in this thesis}
-%Thus, it is necessary to define an ontology for specific domain knowledge. 
 In this thesis we needed to represent users, posted questions and answers, communities, topics. Thus it is necessary to define an ontology for specific domain knowledge. We list the related and popular vocabularies used in our work.
-%TODO Fab : complete this section
 
 
 \textbf{SIOC}\footnote{\url{https://www.w3.org/Submission/sioc-spec/} (accessed Feb 2016)} refers to the \textit{Semantically-Interlinked Online Communities} ontology, which provides the main concepts and properties to describe online communitiy sites, such as weblogs, forums, message boards, wikis. These websites contain huge amounts of valuable information and the SIOC ontology tries to solve the problem that online community sites are like islands without bridges connecting them. It uses semantic Web technologies to describe both the structure and content information in these online communities. It also allows us to link these information to related online communities. Fig \ref{fig:siocontos} shows an overview of the SIOC ontology. It mainly formalizes community users and related activities in online communities.
@@ -272,19 +267,12 @@ According to David M. Blei\footnote{\url{https://www.cs.princeton.edu/~blei/topi
 Latent Semantic Analysis (LSA or LSI)~\cite{chp2deerwester1990indexing} \cite{chp2landauer1997solution} is an early topic model based on the factorization of document-word occurrence matrix. By using singular value decomposition (SVD), it can find a linear combination of topics for each document.
 Probabilistic Latent Semantic Analysis (PLSA), also known as Probabilistic Latent Semantic Indexing (PLSI)~\cite{chp2papadimitriou1998latent}\cite{chp2hofmann1999probabilistic} is a generative statistic model to estimate a low-dimensional representation of the observed variables. Latent Dirichlet Allocation (LDA)~\cite{blei2003latent} is also a generative statistic model that uses observed variables to explain unobserved latent variables, which is a generalization of PLSI model. \cite{griffiths2004finding} \cite{chp2griffiths2002probabilistic} use Gibbs sampling to infer the latent variables in LDA model and introduce some applications of LDA model. Many other topic models are extensions of the LDA model. For example, Hierarchical Latent Dirichlet Allocation (HLDA)~\cite{chp2DBLP:conf/nips/2003} is a topic model that finds a hierarchy of topics. The structure of the hierarchy is determined by the data. Dynamic topic models (DTM)~\cite{chp2blei2006dynamic} discover topics that change over time and how individual documents predict that change. Correlated Topic Models (CTM)~\cite{chp2blei2006correlated} discover correlation structures between topics, etc.
 
-Topic modeling is an active field in text mining and machine learning and we refer the readers to \cite{chp2Blei:2012:PTM:2133806.2133826} for a high level view and summary of the topic modeling research area and also for several exciting future research directions. One of them deals with the development of evaluation methods,
-%NOTE Cath I do not understand the above sentence
-%corrected
-% one direct is to develop evaluation methods to compare which the 'goodness'/'interpretable' of a topic.
-\textit{"How can we compare topic models based on how interpretable they are?"}.
+Topic modeling is an active field in text mining and machine learning and we refer the readers to \cite{chp2Blei:2012:PTM:2133806.2133826} for a high level view and summary of the topic modeling research area and also for several exciting future research directions. One of them deals with the development of evaluation methods, \textit{"How can we compare topic models based on how interpretable they are?"}.
 
 Another interesting research problem related to topic modeling is \textit{how to automatically label the generated topics?} \cite{chp2cano2014automatictopiclabeling} \cite{chp2hulpus2013unsupervisedtopiclabeling} \cite{chp2aletras2014labelling} \cite{chp6OnConceptualLabelingOfBagOfWords} \cite{chp2lau2011automaticlabeling} 
 Typically, users of topic modeling approaches have to interpret the results and manually generate labels for topics for further processing, classification, visualization or analysis. Therefore, in this context, "labelling" means the problem of finding one or more phrases, or concepts, which can sufficiently cover, represent or describe the topic. The problem then is defined as the automation of the topic labelling.
 
 
-
-%NOTE Cath this section should come just after the section on Topic modeling
-%okay
 
 \section{Temporal Analysis: integrate temporal analysis within topic modeling}
 
@@ -300,12 +288,11 @@ There is an increasing research interest for the temporal modeling of online com
 Compared with these works, our model not only captures topics and expertise, it  can also detect topic dynamics both at the global community level and at the individual user level. Besides, we propose a post-process method to extract both topic-time and time-topic distribution. The time-over-topic distribution are usually ignored.
 
 
-%NOTE this section should come after the section on temporal analysis
-%NOTE Cath this title is not correct: these are not the research question you want to address (these are not the one listed at the end of the chapter). These are rather use cases or scenarios you want to answer, or for which you want to provide usefull material. Or maybe this is your state of the art on Q\&A site management? This should be explained in the introduction of this section
-%NOTE Zide yes, these should be tasks rather than research questions. In order to solve these tasks, we expand the research.
 
 \section{Q\&A Sites Management}
-
+%NOTE Cath this title is not correct: these are not the research question you want to address (these are not the one listed at the end of the chapter). These are rather use cases or scenarios you want to answer, or for which you want to provide usefull material. Or maybe this is your state of the art on Q\&A site management? This should be explained in the introduction of this section
+%NOTE Zide yes, these should be tasks rather than research questions. In order to solve these tasks, we expand the research.
+%Note2 Cath -> then at least make it clear in the introduction of this section
 \subsection{Expert Detection: find the "core" user}
 Research related on expert identification in Q\&A sites is mainly based on link analysis and topic modeling techniques. The general purpose of expert detection is normally to support the question routing task which essentially consists in finding the most relevant experts to answer a newly submitted question. 
 
@@ -339,14 +326,17 @@ proposed a recommendation model, which integrates topical expertise and availabi
 \subsection{Similar Question: find questions which have been answered}
 
 \cite{anderson2012discovering} investigate the general characteristics of the StackOverflow dataset. A contribution of this work is to predict the long-term value of a question. They find strong evidences that only 37\% of favorites for a question arrive within the time frame when the question is being answered. Actually the content in Q\&A sites mainly serves two kinds of people: the people who ask questions and the people who search through previous questions. So, if a question has a long-term value, it is more likely to be searched for again. Finding out these questions could improve the result of searching for similar questions. 
-%NOTE Cath what is Q4?
-%corrected
 They developed four categories of features for learning. They include: 4 questioner features which are related to questioner's behaviors; 8 activity and Q/A quality measures which are extracted from questions and answers; 8 community process features which are related the reputation of answers; and 7 temporal process features which are generated from the time information of the Q/A activity.
 Then they treat this problem as a binary classification task and use a machine learning technique to predict whether a question has a long-term value. They compare their work with a baseline which only uses upvote and downvote features. 
 
 \cite{chp2jeon2005finding}
 discuss methods for question retrieval that are based on using the similarity between answers. It proposed a translation-based retrieval model to find similar questions. The experiment shows that it is possible to find semantically similar questions with relatively few overlapping words.
 They found that question titles can provide the best performance for retrieving similar question. This work is based on the intuition that most of the people do not check whether their question has been already asked which leads to a situation where there can be many semantically identical questions. Therefore, they use the similarity between answers to group similar questions. A translation model based algorithm is proposed to calculate the similarity between answers. For example, this model can provide a similarity score between 'bmp' and 'jpg'. Experiments show that the model can outperform other language models and similarity metrics. 
+
+%subsubsection{Probabilistic Question Recommendation for Question Answering Communities}
+\cite{chp2Qu:2009:WWW:PLSA:SimlarQ} 
+present a probabilistic latent semantic analysis (PLSA) approach to compute the probability that a user will answer a question. 
+They actually build a user-interest-question model. PLSA and LDA are quite similar and both are topic models, and LDA could be viewed as an extension of PLSA. The experiment shows that topic features based similarity can outperform cosine distance based similarity. \cite{chp2Wu:2008:PLSA:SimlarQ} also used PLSA to recommend questions.
 
 Table \ref{tab:workcompare} provides a comparison of the above described works.
 
@@ -383,20 +373,6 @@ Table \ref{tab:workcompare} provides a comparison of the above described works.
 \caption{Comparison of several works in Q\&A sites. 'Expert' denotes 'Expert detection', 'Routing' denotes 'Question Routing', 'Similar' denotes 'Similar Question Finding', 'Method' denotes 'Proposed algorithm', 'Dataset' denotes 'Experiment Data', and 'Topic' denotes 'Topic Detection'}
 \label{tab:workcompare}
 \end{sidewaystable}
-
-%NOTE Cath the table should come at the end of the section and include the PLSA approach described bellow
-%corrected, PLSA included, the forth line.
-
-%subsubsection{Probabilistic Question Recommendation for Question Answering Communities}
-\cite{chp2Qu:2009:WWW:PLSA:SimlarQ} 
-present a probabilistic latent semantic analysis (PLSA) approach to compute the probability that a user will answer a question. 
-%NOTE Cath the above sentence is not correct. What do you mean?
-%correct it.
-% this model can compute the probability of whether a user will answer a question.
-They actually build a user-interest-question model. PLSA and LDA are quite similar and both are topic models, and LDA could be viewed as an extension of PLSA. The experiment shows that topic features based similarity can outperform cosine distance based similarity. \cite{chp2Wu:2008:PLSA:SimlarQ} also used PLSA to recommend questions.
-
-
-
 
 
 
