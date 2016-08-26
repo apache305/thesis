@@ -24,14 +24,14 @@ More precisely, we aim at extracting the indicators listed in table \ref{tab:lis
 \begin{tabular}{|c|c|}
 \hline
 \emph{Notation}  & \emph{Functionality of distribution} \\ \hline
-\theta_{uk} & detect a user's most interested topic \\ \hline
-\theta_{ku} & detect the most active users in a topic \\ \hline
-\theta_{kv}/\theta_{kw} & detect the most relevant tags/words in a topic \\ \hline
-\theta_{kt} & detect the trends of a topic \\ \hline
-\theta_{tk} & detect the most popular topic at point in time \\ \hline
+$\theta_{uk}$ & detect a user's most interested topic \\ \hline
+$\theta_{ku}$ & detect the most active users in a topic \\ \hline
+$\theta_{kv}$/$\theta_{kw}$ & detect the most relevant tags/words in a topic \\ \hline
+$\theta_{kt}$ & detect the trends of a topic \\ \hline
+$\theta_{tk}$ & detect the most popular topic at point in time \\ \hline
 %User,Time-Topic & detect a user's most interested topic at a point in time \\ \hline
-\theta_{ukt} & detect a user's activity pattern in a topic \\ \hline
-\theta_{uke} & detect a user's most expertise topic\\ \hline
+$\theta_{ukt}$ & detect a user's activity pattern in a topic \\ \hline
+$\theta_{uke}$ & detect a user's most expertise topic\\ \hline
 %User,Exp-Topic & detect a user's most experted topic \\ \hline
 \end{tabular}
 \end{table}
@@ -401,7 +401,7 @@ We score each user $u$ by considering the similarity between his topics of inter
 Sim(u,q) = (1 -JS(\theta_{uk},\theta_{qk}))
 \label{eq:simquestion}
 \end{equation}
-where $\theta_{uk}$ is the user topic interest distribution, $\theta_{qk}$ is the question topic distribution, and JS(.) is the Jensen–Shannon divergence distance. We obtain $\theta_{uk}$ directly from model results. For $\theta_{qk}$, we apply equation \ref{eq:thetaqk}.
+where $\theta_{uk}$ is the user topic interest distribution, $\theta_{qk}$ is the question topic distribution, and JS(.) is the Jensen-Shannon divergence distance. We obtain $\theta_{uk}$ directly from model results. For $\theta_{qk}$, we apply equation \ref{eq:thetaqk}.
 \begin{equation}
 \begin{split}
 \theta{q,k} &\propto p(k|w_q,t_q,u) \\

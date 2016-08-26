@@ -215,7 +215,7 @@ Compared with LDA-based model, our model could have a zero-probabilities problem
 %DONE
 In addition, compared with LDA-based model, our model is much simpler and faster. The probabilistic graphical model requires hundreds of iterations to get stable results~\cite{griffiths2004finding}.
 
-We used the spectral clustering implementation of scikit-learn toolkit\footnote{Scikit-learn toolkit: \\ \indent \url{http://scikit-learn.org/stable/modules/clustering.html#spectral-clustering}}. We only run it on the set of root nodes, which has quite a small size (around 1175 nodes after the tag enrichment process), which means that we only need to build an affinity matrix on these root nodes and the overall cost therefor remains acceptable.
+We used the spectral clustering implementation of scikit-learn toolkit\footnote{Scikit-learn toolkit: \\ \indent \url{http://scikit-learn.org/stable/modules/clustering.html##spectral-clustering}}. We only run it on the set of root nodes, which has quite a small size (around 1175 nodes after the tag enrichment process), which means that we only need to build an affinity matrix on these root nodes and the overall cost therefor remains acceptable.
 
 \subsection{User Interest Detection: assigning users to topics}
 \label{sec:uidetect}

@@ -7,13 +7,14 @@
 \section{Introduction}
 In this chapter, we review the related topics for the background knowledge for this thesis and provide a state of the art review of related literature. First, We summerize background knowledge on social Web and semantic Web.
 Second, we provide an introduction to the collaborative project OCKTOPUS in which this Ph.D. took place.
-We then discuss the state of the art approaches to community detection, topic modelling and temporal analysis in question-answering sites, and to question-answering site management. 
+We then discuss the state of the art approaches to community detection, topic modelling and temporal analysis in question-answering sites.
+We also detailed the classical tasks in question-answering sites management, and connected these tasks with our research questions.
 Finally, we define the focus of this thesis by identifying the research questions addressed and by  positioning our contribution with regard to the state of the art.
 
 \section{Social Semantic Web: combine social network analysis and Semantic Web}
 
 \subsection{Social Web: online communities and user-generated content}
-The term "social Web" was coined by Howard Rheingold in 1996. His Whole Earth Review article in 1987 introduced the notion of “Virtual Communities” and he was quoted in an article in Time magazine in 1996 introducing the term "Social Web". His website "Electric Minds", described as a "virtual community", listed online communities for users interested in socializing through the Web, stating that "the idea is that we will lead the transformation of the Web into a social Web" \cite{rheingold2000virtual}. According to the World Wide Web Consortium (W3C), "the Social Web is a set of relationships that link together people over the Web"\footnote{\url{https://www.w3.org/2005/Incubator/socialweb/XGR-socialweb-20101206/}(accessed Feb 2016)}. The social Web is designed and developed to support social interaction  \cite{porter2010designing} on the Web. These on-line social interactions include for instance online shopping, blogs, forums, video sharing and social networking websites. Today, hundreds of millions of persons are using thousands of social websites to connect with friends, discover news and to share user-generated content, such as blogs, photos, microblogs, videos. By the end quarter of 2008, Facebook reported 67 million members, YouTube had more than 100 million videos and 2.9 million user channels  \cite{watson2008causewired}, and these numbers are consistently growing, as today Facebook reports more than a billion of active users.  
+The term "social Web" was coined by Howard Rheingold in 1996. His Whole Earth Review article in 1987 introduced the notion of "Virtual Communities" and he was quoted in an article in Time magazine in 1996 introducing the term "Social Web". His website "Electric Minds", described as a "virtual community", listed online communities for users interested in socializing through the Web, stating that "the idea is that we will lead the transformation of the Web into a social Web" \cite{rheingold2000virtual}. According to the World Wide Web Consortium (W3C), "the Social Web is a set of relationships that link together people over the Web"\footnote{\url{https://www.w3.org/2005/Incubator/socialweb/XGR-socialweb-20101206/}(accessed Feb 2016)}. The social Web is designed and developed to support social interaction  \cite{porter2010designing} on the Web. These on-line social interactions include for instance online shopping, blogs, forums, video sharing and social networking websites. Today, hundreds of millions of persons are using thousands of social websites to connect with friends, discover news and to share user-generated content, such as blogs, photos, microblogs, videos. By the end quarter of 2008, Facebook reported 67 million members, YouTube had more than 100 million videos and 2.9 million user channels  \cite{watson2008causewired}, and these numbers are consistently growing, as today Facebook reports more than a billion of active users.  
 
 
 \subsubsection{Web 2.0}
@@ -95,13 +96,13 @@ Quora\footnote{\url{https://www.quora.com/} (accessed Feb 2016)} & Multiple&view
 \label{tab:qasites}
 \end{sidewaystable}
 
-StackOverflow is the most popular Q\&A site that focus on computer programming topics. Its data is published every month. It includes all the detailed information, such as quesiton answer contents, user profile, temporal information. This is why we decided to use StackOverflow dataset throughout this work. Figure \ref{fig:stackexample} shows an example of question and answer on StackOverflow.  
+StackOverflow is the most popular Q\&A site that focus on computer programming topics. Its data is published every month. It includes all the detailed information, such as quesiton answer contents, user profile, temporal information. This is why we decided to use StackOverflow dataset throughout this work. Figure \ref{fig:stackexample} shows an example of question and answer on StackOverflow\footnote{\url{http://stackoverflow.com/questions/3417760/how-to-sort-a-python-dict-by-value} (accessed Feb 2016)}.  
 \begin{figure}%[htbp]
 \centering
 %\epsfig{file=fly.eps, height=1in, width=1in} % use this if you use "pdflatex"
 %\includegraphics[height=1.857in, width=3.2in]{overview.png}  
 \includegraphics[width=5.3in]{stackexample.jpeg}  
-\caption{A example of question and answer on StackOverflow \footnote{\url{http://stackoverflow.com/questions/3417760/how-to-sort-a-python-dict-by-value} (accessed Feb 2016)}}
+\caption{A example of question and answer on StackOverflow }
 \label{fig:stackexample} 
 \end{figure}
 
@@ -133,8 +134,8 @@ In the following subsections, we briefly introduce the RDF data model which is u
 \end{sidewaysfigure}
 
 \subsubsection{RDF}
-The Resource Description Framework (RDF) data model is used to describe resources with the subject, the predicate and the object triple, which can be viewed as ``a natural way to describe the vast majority of the data processed by machines''. 
-By considering  RDF triples joined through shared URIs, one gets from a triple model to a graph data model\footnote{Resource Description Framework (RDF): Concepts and Abstract Syntax \url{https://www.w3.org/TR/2004/REC-rdf-concepts-20040210/#section-Concepts} (accessed Feb 2016)}, i.e., as show in Figure \ref{fig:rdfgraph}, each triple can be seen as a potentially distributed arc of an oriented labeled multi-graph. 
+The Resource Description Framework (RDF) data model is used to describe resources with the subject, the predicate and the object triple, which can be viewed as "a natural way to describe the vast majority of the data processed by machines". 
+By considering  RDF triples joined through shared URIs, one gets from a triple model to a graph data model\footnote{Resource Description Framework (RDF): Concepts and Abstract Syntax \url{https://www.w3.org/TR/2004/REC-rdf-concepts-20040210/##section-Concepts} (accessed Feb 2016)}, i.e., as show in Figure \ref{fig:rdfgraph}, each triple can be seen as a potentially distributed arc of an oriented labeled multi-graph. 
 
 \begin{figure}%[htbp]
 \centering
@@ -172,6 +173,7 @@ An ontology is ``a set of representational primitives with which to model a doma
 RDF enables people to describe resources and RDF Schema (RDFS) provides the basic primitives to define properties and classes. From the definition given by the W3C\footnote{\url{https://www.w3.org/TR/rdf-schema/} (accessed Feb 2016)}, RDFS is a language to define RDF vocabularies in order to represent RDF data. RDFS primitives extend the basic RDF vocabulary; they mainly enable to declare classes, properties, hierarchies of classes and hierarchies of properties, and to associate labels and comments in Natural Language to classes and properties. 
 The Web Ontology Language (OWL) builds on top of RDFS and provides a language for defining ontologies which enable richer integration and interoperability of data among descriptive communities. From the definition given by the W3C\footnote{\url{https://www.w3.org/OWL/} (accessed Feb 2016)}, OWL is a Semantic Web language designed to represent rich and complex knowledge about things, groups of things, and relations between things. While RDFS primitives enable to \textit{declare} atomic classes and properties, OWL primitives enables to  \textit{define} classes and properties. 
 %NOTE Cath add a description of SKOS only if needed.
+%added in subsubsection{Vocabularies used in this thesis}
 
 %NOTE FAB: then you should have a section on the vocabularies uou reuse with SIOC but also Dublin Core and FOAF no ? SKOS? when I look at section " QASM Vocabulary: formalize latent information" I think you use and could use more vocabularies than SIOC and they should all be introduced here.
 
@@ -293,6 +295,9 @@ Compared with these works, our model not only captures topics and expertise, it 
 %NOTE Cath this title is not correct: these are not the research question you want to address (these are not the one listed at the end of the chapter). These are rather use cases or scenarios you want to answer, or for which you want to provide usefull material. Or maybe this is your state of the art on Q\&A site management? This should be explained in the introduction of this section
 %NOTE Zide yes, these should be tasks rather than research questions. In order to solve these tasks, we expand the research.
 %Note2 Cath -> then at least make it clear in the introduction of this section
+%done. add this description in introduction
+
+%%We also detailed the classical tasks in question-answering sites management, and connected these tasks with our research questions.
 \subsection{Expert Detection: find the "core" user}
 Research related on expert identification in Q\&A sites is mainly based on link analysis and topic modeling techniques. The general purpose of expert detection is normally to support the question routing task which essentially consists in finding the most relevant experts to answer a newly submitted question. 
 
