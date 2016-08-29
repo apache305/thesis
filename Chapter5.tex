@@ -4,6 +4,7 @@
 \minitoc
 
 %TODO Cath add a first section for a global introduction to this chapter
+%okay
 \section{Introduction}
 In Chapter \ref{chap:qasm}, we mentioned that there are two kinds of information in user-generated content. One of them is latent information such as topics and communities, which are not explicitly existed in the original data set. In this chapter, we aim at extracting these latent information from tags on Q\&A sites.
 
@@ -11,17 +12,7 @@ In Chapter \ref{chap:lda}, we applied the original LDA model and we found it is 
 
 \section{Topic Trees Distributions (TTD)}\label{sec:TTD}
 
-\subsection{Problem Definition: mining topics and communities}
-%TODO Cath I think that this subsectin shld disappear. The formalisation should go in the introduction of chapter 4
 
-The problem of mining topics and communities in Q\&A platforms can be formalized as follows:
-
-Let $U=\{u_1,u_2...u_n\}$ be the set of users, $Q=\{q_1,q_2...q_m\}$ the set of questions and $T=\{t_1,t_2...t_v\}$ the set of tags. We aim at:
-
-\begin{enumerate}
- \item extracting topics distribution $Topic=\{topic_1,topic_2...topic_k\}$ from $T$, and for each $topic_k$, defining $topic_k=\{p_{k1},p_{k2}...p_{kv}\}$ where $p_{ki}$ denotes the probability of tag $t_i$ to be related to $topic_k$; an then
-  \item detecting user's interests. For a user $u_i \in U$, we define $I_i=\{I_{i1},I_{i2}...I_{ik}\}$ where $I_{ik}$ denotes the probability of $u_i$ to be interested in $topic_k$.
-\end{enumerate}
 
 
 \subsection{First-Tag Enrichment: adding a more general tag when needed}

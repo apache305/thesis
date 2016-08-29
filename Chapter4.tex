@@ -10,6 +10,19 @@ In StackOverflow, a user submits a question, then assigns 1$\sim$5 tags to indic
 
 %TODO Cath I think that the definition of the problem in chapter 5 should come here
 
+\subsection{Problem Definition: mining topics and communities}
+%TODO Cath I think that this subsectin shld disappear. The formalisation should go in the introduction of chapter 4
+%yes, they are the same.
+
+The problem of mining topics and communities in Q\&A platforms can be formalized as follows:
+
+Let $U=\{u_1,u_2...u_n\}$ be the set of users, $Q=\{q_1,q_2...q_m\}$ the set of questions and $T=\{t_1,t_2...t_v\}$ the set of tags. We aim at:
+
+\begin{enumerate}
+ \item extracting topics distribution $Topic=\{topic_1,topic_2...topic_k\}$ from $T$, and for each $topic_k$, defining $topic_k=\{p_{k1},p_{k2}...p_{kv}\}$ where $p_{ki}$ denotes the probability of tag $t_i$ to be related to $topic_k$; an then
+  \item detecting user's interests. For a user $u_i \in U$, we define $I_i=\{I_{i1},I_{i2}...I_{ik}\}$ where $I_{ik}$ denotes the probability of $u_i$ to be interested in $topic_k$.
+\end{enumerate}
+
 Similarly to \cite{Li:2010:CTM:1871437.1871673}, we applied the classic LDA method to construct a users-topics-tags model to detect latent topics of interest from the tags acquired by users and then cluster users into different topics. The output of the model consists of two probability distributions:
 \begin{enumerate}
  \item a User-Topic distribution to describe to what extent a user is interested in the different topics.

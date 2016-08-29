@@ -223,17 +223,24 @@ Once we have these relation graphs, we perform several graph algorithms to chose
 \end{itemize}
 
 %TODO Cath : I added this her. TO be checked
-We proposed a method called "Most+Top" which consists in creating the list of  the most recommended labels by all the above algorithms and then creating a label from this list by using the \"Top tags\" algorithm. 
+We proposed a method called "Most+Top" which consists in creating the list of the most recommended labels by all the above algorithms and then a label from this list by using the above \"Top tags\" algorithm. 
+%note zide checked 
 
 
 \section{Experiments: A survey study}
 In order to evaluate the performances of the different ways to generate labels we conducted user studies on the results. We designed two surveys for the user study. Table \ref{tab:chp6survey} shows the structure of the survey we used. For each survey, we listed 30 topics, half of them are from StackOverflow dataset, half of them are from Flickr dataset. 
-The only difference for survey A and B is the linking (disambiguation) method. As mentioned in section \ref{sec:chp6secSolution}, we use both cosine similarity and Babelfy to link tags with DBpedia resources. 
+The only difference for survey A and B is the linking (disambiguation) method for StackOverflow dataset. As mentioned in section \ref{sec:chp6secSolution}, we use both cosine similarity and Babelfy to link tags with DBpedia resources. 
 
 %TODO Cath is the table correct? and the text above? I do not understand in which case you use the cosine similarity and in which case yu use Babelfy
+%yes, they are correct., I update the above text to make it more clear.
+%surveyA SO          use cosine simi
+%surverA flickr      use   babelfy
+%surveyB SO          use   babelfy
+%surverB flickr      use   babelfy
+
 
 \begin{table}[htp]
-\caption{Survey description}
+\caption{Survey description and corresponding linking method}
 \label{tab:chp6survey}
 \centering
 \begin{tabular}{|c|c|c|}
@@ -251,8 +258,10 @@ We use Krippendorff's Alpha\footnote{\url{https://en.wikipedia.org/wiki/Krippend
 Figure \ref{fig:chp6alpha} illustrates the alpha score for 15 topics in each dataset and the average alpha score. We evaluate this score in three levels which correspond to the three sub figures. If we consider the top voted label as the best label, the first figure shows the agreement score among users. When we lower this limitation and consider the set of the top voted two labels as the best label, we can find that for most of the topics users could reach a good agreement. When we keep lowering this limitation and consider the top three voted labels as the best label, we can find that they reach an excellent agreement. 
 
 %TODO Cath check the captions I added to all the following figures
+%done
 
 %TODO Cath remove Agreement Alpha Score on your 3 subfigures
+%done
 
 \begin{figure}[htp]
 \caption{Agreement Alpha Score on the top X labels}
@@ -262,12 +271,13 @@ Figure \ref{fig:chp6alpha} illustrates the alpha score for 15 topics in each dat
 \end{figure}
 
 %TODO Cath correct in your 3 subfigures: percentage od users agreeing on ...
+%done
 
 In addition, we calculate the proportion of top voted labels. Figure \ref{fig:chp6top} shows the number of topics which top voted labels take a certain proportion.
 \begin{figure}[htp]
 \centering
 \includegraphics[width=5in]{chp6top.jpeg}  
-\caption{Number of topics as a function of the proportion of the top X voted labels}
+\caption{Number of proportion as a function of the top X voted labels}
 \label{fig:chp6top} 
 \end{figure}
 Proportion of top voted labels are plotted on the X-axis, and numbers of topics are plotted on the Y-axis. For instance, a data point ($50\%$,6) in the first sub figure means that there are 6 topics which first voted labels takes $50\%$ percent of all voted labels. A data point ($50\%$,6) in the second sub figure means that there are 6 topics which top two voted labels take $50\%$ percent of all voted labels. Similarly, a data point ($50\%$,6) in the third sub figure means that there are 6 topics which top three voted labels take $50\%$ percent of all voted labels. These three figures show that most of the labels chosen by judges are actually highly voted labels, which means all judges tend to agree on the top two or three labels.
@@ -282,6 +292,7 @@ Here, we evaluate NDCG@1, NDCG@2, and NDCG@3. The algorithm can generate a ranke
 We can find that most of the algorithms can predict the good labels for a topic. Especially, if we consider giving two labels for a topic, our proposed method "Most+Top" has very good results on all the datasets, which means for all the topics, the method can generate two good labels to represent the meaning of the topic.
 
 %TODO Cath remove "different algorithms" in your 3 subfigures
+%done
 
 \begin{figure}[htp]
 \centering
