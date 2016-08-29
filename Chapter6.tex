@@ -5,10 +5,9 @@
 
 
 
-\section{Introduction: find labels to represent a topic}
-% TODO FAB: I changed this introduction
-In naturally language processing and information retrieval, topic modeling classically uses bags of words to represent the meaning a text. However, this is not sufficient to support user interactions as bag of words require an effort from the user to go through the lists of the most important words in order to get an idea of the topic they represent when considered together.
-In chapter \ref{chap:ttd} we discussed a method that extracts topics from tags and the outputs of topic model are indeed bags of words, each of them representing a detected topic of interest. At this stage we could only attached meaningless labels for each topic, such as \textit{topic 3}, \textit{topic 5}.
+\section{Introduction: finding labels to represent a topic}
+In natural language processing and information retrieval, topic modeling classically uses bags of words to represent the meaning of a text. However, this is not sufficient to support user interactions as bags of words require an effort from the user to go through the lists of the most important words in order to get an idea of the topic these words represent when considered together.
+In chapter \ref{chap:ttd} we discussed a method that extracts topics from tags and the outputs of topic model are indeed bags of words, each of them representing a detected topic of interest. At this stage we could only attach meaningless labels for each topic, such as \textit{topic 3}, \textit{topic 5}.
 
 Let us now consider examples of such topics: 
 \begin{itemize}
@@ -16,9 +15,10 @@ Let us now consider examples of such topics:
     \item {git, svn, tfs, maven -> \textit{version-control}}
     \item {machine-learning, artificial-intelligence, neural-network, classification -> \textit{artificial-intelligence}}
 \end{itemize}
-The labels, (e.g. \textit{Italy}, \textit{version-control}, \textit{artificial-intelligence}), in the right hand side are good candidates to summarize the overall topic captured by the bags the words on the left hand side. Those labels are at least more informative than labels such as \textit{topic 3} and\textit{topic 5} and can be used in interfaces and graphical representations of the results of the detection of communities of interest.
 
-So an interesting task we consider in this chapter is how to automatically generate a general label for the bags of words representing a topic, which can best represent the meaning of that topic. \cite{chp6OnConceptualLabelingOfBagOfWords} introduce the task of conceptual labelling (CL), which aims at generating a minimum set of conceptual labels that best summarize a bag of words. Our work is similar to this one, but the main difference is that we use DBpedia as external knowledge and we use graph centrality based algorithms to help generate labels to represent a bag of words. \cite{chp2hulpus2013unsupervisedtopiclabeling} also propose to use DBpedia and graph centrality based algorithms to choose label. The difference with our appraoch is that rather than using existing graph centrality based algorithms, we proposed a hybrid method to generate labels. 
+The labels, (e.g. \textit{Italy}, \textit{version-control}, \textit{artificial-intelligence}), in the right hand side are good candidates to summarize the overall topics captured by the bags the words on the left hand side. Those labels are at least more informative than labels such as \textit{topic 3} and\textit{topic 5} and can be used in interfaces and graphical representations of the results of the detection of communities of interest.
+
+So an interesting task we consider in this chapter is how to automatically generate a general label for the bags of words representing a topic, which can best represent the meaning of that topic. \cite{chp6OnConceptualLabelingOfBagOfWords} introduces the task of conceptual labelling (CL), which aims at generating a minimum set of conceptual labels that best summarize a bag of words. Our work is similar to this one, but the main difference is that we use DBpedia as external knowledge and we use graph centrality based algorithms to help generate labels to represent a bag of words. \cite{chp2hulpus2013unsupervisedtopiclabeling} also proposes to use DBpedia and graph centrality based algorithms to choose labels. Our approach differs from it in that rather than using existing graph centrality based algorithms to generate labels, it is a hybrid method. 
 
 
 \subsection{Problem definition: words, topics and labels}
@@ -28,7 +28,7 @@ Our previous work on topic modeling can generate topics from words or tags. Each
 
 \begin{table}[htp]
 %\begin{table}[!t]
-\caption{Top tags and their probabilities on flickr dataset}
+\caption{Top tags and their probabilities on the Flickr dataset}
 \label{tab:flickrtags}
 \centering
 %\scriptsize
@@ -122,68 +122,50 @@ ie6&0.009&web-development&0.008&bayesian&0.011\\
 \end{tabular}
 \end{table}
 
-\section{Solution: using DBpedia information}
+\section{Proposed approach: using DBpedia information}
 \label{sec:chp6secSolution}
 
-\subsection{link to DBpedia}
+\subsection{Linking to DBpedia}
 
-DBpedia\footnote{\url{http://dbpedia.org/about} (accessed Feb 2016)} is a crowd-soured community effort to extract structured information from Wikipedia\footnote{\url{https://www.wikipedia.org/}(accessed Feb 2016)} and makes this information available on the Web. It allows users to link their own dataset to Wikipedia data and to augment it with this huge amount of additional data, documents and links. The DBpedia knowledge base now plays an important role in enhancing the intelligence of Web applications and in supporting information integration. Among the advantages of the DBpedia knowledge base are the fact it covers many domains and that it automatically evolves with Wikipedia changes. It currently describes 38.3 million things in total and contains 3 billion of RDF triples (2014 version).
+DBpedia\footnote{\url{http://dbpedia.org/about} (accessed Feb 2016)} is a crowd-sourced community effort to extract structured information from Wikipedia\footnote{\url{https://www.wikipedia.org/}(accessed Feb 2016)} and make this information available on the Web. It allows users to link their own dataset to Wikipedia data and to augment it with this huge amount of additional data, documents and links. The DBpedia knowledge base now plays an important role in enhancing the intelligence of Web applications and in supporting information integration. Among the advantages of the DBpedia knowledge base are the facts that it covers many domains and that it automatically evolves with Wikipedia changes. It currently describes 38.3 million things in total and contains 3 billions of RDF triples (2014 version).
 
 
-In order to use the DBpedia knowledge base, a basic step is to link the bag of words to DBpedia. For example, a word \textit{javascript} could be linked to DBpedia resource \textit{\url{http://dbpedia.org/resource/JavaScript}}, a word \textit{beer} could be linked to DBpedia resource	\textit{\url{http://dbpedia.org/resource/Beer}}. However, in some cases, several resources or entities may correspond to the same word (homonymy). For instance, \textit{java} could be linked to the \textit{Java} island but it could also be linked to the\textit{Java}  java programming language. Therefore, we have to deal with a disambiguation problem when linking words to DBpedia resources. This is a well-known problem now and extensively studied by researchers working on entity recognition, named entity detection and entity linking.  Babelfy\cite{chp6babelfy:Moroetal:14tacl} is a unified graph-based approach to solve Entity Linking (EL) and Word Sense Disambiguation (WSD) problems. Their experiments show the state-of-the-art performances on both tasks on 6 different datasets. Moreover they provide an online webservice\footnote{\url{http://babelfy.org} (accessed Feb 2016)}. So we directly use their web API to retrieval DBpedia links for the words in our dataset. In addition, we also use classical similarity metrics to slove disambiguation problem, we detailed them in next subsection.
+In order to use the DBpedia knowledge base, a basic step is to link the bag of words to DBpedia. For example, the word \textit{javascript} could be linked to DBpedia resource \textit{\url{http://dbpedia.org/resource/JavaScript}}, the word \textit{beer} could be linked to DBpedia resource	\textit{\url{http://dbpedia.org/resource/Beer}}. However, in some cases, several resources or entities may correspond to the same word (homonymy). For instance, \textit{java} could be linked to the \textit{Java} island but it could also be linked to the\textit{Java} programming language. Therefore, we have to deal with a disambiguation problem when linking words to DBpedia resources. This is a well-known problem now and extensively studied by researchers working on entity recognition, named entity detection and entity linking.  
+Babelfy\cite{chp6babelfy:Moroetal:14tacl} is a unified graph-based approach to solve Entity Linking (EL) and Word Sense Disambiguation (WSD) problems. Their experiments show the state-of-the-art performances on both tasks on 6 different datasets. Moreover they provide an online webservice\footnote{\url{http://babelfy.org} (accessed Feb 2016)}. So we directly used their web API to retrieval DBpedia links for the words in our dataset. In addition, we used classical similarity metrics to solve the disambiguation problem, as detailed in the next subsection.
 
-\subsection{using descriptions' cosine similarity to disambiguation}
+\subsection{Using descriptions' cosine similarity for disambiguation}
 Our main dataset is from the StackOverflow website and we found that there are detailed descriptions for each tag on the website, as shown in figure \ref{fig:chp6taginfo}
 \begin{figure}[htp]
 \centering
 \includegraphics[width=5in]{chp6taginfo.jpg}  
-\caption{The description for \textit{java} on StackOverflow dataset \footnote{\url{http://stackoverflow.com/tags/java/info} (accessed Feb 2016)}}
+\caption{Description of \textit{java} on StackOverflow dataset \footnote{\url{http://stackoverflow.com/tags/java/info} (accessed Feb 2016)}}
 \label{fig:chp6taginfo} 
 \end{figure}
 
-Besides, each resource in DBpedia has a description.  We use DBpedia keyword lookup service \footnote{\url{http://dbpedia.org/projects/dbpedia-lookup}(accessed Feb 2016)} to retrieve related resource for each tag. As Shown in Figure \ref{fig:chp6lookup}, results of the lookup service are a lists of resources related to the given keyword.
+Besides, each resource in DBpedia has a description.  We used the DBpedia keyword lookup service \footnote{\url{http://dbpedia.org/projects/dbpedia-lookup}(accessed Feb 2016)} to retrieve related resources for each tag. As Shown in Figure \ref{fig:chp6lookup}, the result of a call to the lookup service is a list of resources related to the given keyword.
 
 \begin{figure}[htp]
 \centering
 \includegraphics[width=5in]{chp6lookup.jpg}  
-\caption{The example result of DBpedia lookup service for keyword \textit{java}}
+\caption{Result of the DBpedia lookup service for keyword \textit{java}}
 \label{fig:chp6lookup} 
 \end{figure}
 
-In order to link \textit{java} to the correct DBpedia resource link. We compute the cosine similarity between the two descriptions from the two websites (StackOverflow and DBpedia) to solve the disambiguation problem. The  entire procedure is described as follows:
+In order to link \textit{java} to the correct DBpedia resource, we compute the cosine similarity between the two descriptions from the two websites (StackOverflow and DBpedia) to solve the disambiguation problem. The  entire procedure is as follows:
+
+%TODO Cath use a presentation like in the previous chapters for algorithms
 
 \begin{enumerate}
-    \item{crawl the tag description from StackOverflow.}
-    \item{retrieve DBpedia resources by the lookup service  }
-    \item{compute the cosine distances between the description from StackOveflow and the description for each retrieved resource}
+    \item{crawl the tag description from StackOverflow}
+    \item{retrieve DBpedia resources by the lookup service}
+    \item{compute the cosine distances between the description from StackOveflow and the description of each retrieved resource}
     \item{link the tag to the resource with the highest similarity}
 \end{enumerate}
 
 
-\subsection{Create graphs: retrieval potential links between resources}
-After linking the tags to its corresponding DBpedia resources, we then perform several SPARQL queries to retrieve the potential relations among the resources found for each topic. 
-% \begin{itemize}
-% \item {Depth=1:} \\
-% select  ?relation \\
-% where\{ \\
-% \textit{ra} ?relation \textit{rb} . \\
-% \} 
-% \item{ Depth=2:} \\
-% select  ?r1, ?relation1, ?relation2 \\
-% where\{ \\
-% \textit{ra} ?relation1 ?r1 . \\
-% ?r1 ?relation2 \textit{rb} .\\
-% \} 
-% \item{ Depth=3:} \\
-% select  ?r1, ?r2 ?relation1, ?relation2, ?relation3 \\
-% where\{ \\ 
-%  \textit{ra} ?relation1 ?r1 . \\
-%  ?r1 ?relation2 ?r2 .\\
-%  ?r2 ?relation3 \textit{rb} .\\
-% \} 
-% \end{itemize}
-%TODO FAB: queries would be better presented as code.
-%DONE
+\subsection{Creating graphs: retrieving potential links between resources}
+After linking tags to theirs corresponding DBpedia resources, we then perform several SPARQL queries to retrieve the potential relations among the resources found for each topic. 
+
 
 \begin{algorithm}%[htp]
 \begin{algorithmic}[1]
@@ -196,15 +178,12 @@ After linking the tags to its corresponding DBpedia resources, we then perform s
 \State \ \ \ \ \ \textit{ra ?relation rb.}
 \State \textbf{\}}
 
-
 \State \textit{/***Depth=2:***/}
-
 \State \textbf{select}  \textit{?r1, ?relation1, ?relation2} 
 \State \textbf{where\{} 
 \State \ \ \ \ \ \textit{ra ?relation1 ?r1.}
 \State \ \ \ \ \ \textit{?r1 ?relation2 rb.} 
 \State \textbf{\}} 
-
 
 \State \textit{/***Depth=3:***/}
 \State \textbf{select}  \textit{?r1, ?r2, ?relation1, ?relation2, ?relation3} 
@@ -213,93 +192,96 @@ After linking the tags to its corresponding DBpedia resources, we then perform s
 \State \ \ \ \ \ \textit{?r1 ?relation2 ?r2.}
 \State \ \ \ \ \ \textit{?r2 ?relation3 rb.} 
 \State \textbf{\}} 
-
-
 \end{algorithmic}
 \end{algorithm}
 
+where, \textit{ra}, \textit{rb} are the resources for which we want to retrieve the potential relations and $?r1$, $?r2$, $?relation1$, $?relation2$, $?relation3$ are the potential relations and the intermediate resources. $Depth$ denotes the hops between the resources \textit{ra} and \textit{rb}. We vary this parameter by $1,2,3$. Figure \ref{fig:chp6resourcegraph} shows the retrieved graph for the linux related topic.
 
-
-
-
-
-
-
-
-Where, \textit{ra}, \textit{rb} are the resources for which we want to retrieve the potential relations. $?r1$, $?r2$, $?relation1$, $?relation2$, $?relation3$ are the potential relations and the intermediate resources. $Depth$ denotes the hops between the resources \textit{ra} and \textit{rb}. We vary this parameter by $1,2,3$. Figure \ref{fig:chp6resourcegraph} shown a retrieved graph for a linux related topic.
-%TODO FAB: we have to explain why we don't use path expressions and what is the general idea behind these queries I propos the text below
-%AGREE
 To remain compatible with SPARQL 1.0 we did not use the path operator that would support a much synthetic way of writing these queries. The general idea behind these queries is to reconstruct a small connected graph around the detected resources for a topic in order to obtain a space where to analyze their relations.
 
 \begin{figure}[htp]
 \centering
 \includegraphics[width=5in]{chp6resourcegraph.jpg}  
-\caption{The example graph structure for a linux topic}
+\caption{The example graph structure for the linux related topic}
 \label{fig:chp6resourcegraph} 
 \end{figure}
 
-Once we have these relation graphs, we perform several graph algorithms to chose one or several resources as candidates to label the the bag of words of the topics. We mainly used the following algorithms/metrics:
+Once we have these relation graphs, we perform several graph algorithms to chose one or several resources as candidates to label the bag of words of the topics. We mainly used the following algorithms/metrics:
 \begin{itemize}
-    \item {InDegree} \\
+    \item {InDegree (ID)} \\
     In a directed graph, for a node, the number of head ends adjacent to a node is called the indegree of the node. 
-    \item {Betweenness Centrality } \\
+    \item {Betweenness Centrality (BC)} \\
     It is an indicator of a node's centrality in a network. It is equal to the number of shortest paths from all vertices to all others that pass through that node.
-    \item {Degree Centrality} \\
+    \item {Degree Centrality (DC)} \\
     It is defined as the number of links incident upon a node, which is equal to indegree plus outdegree for a directed graph.
-    \item {Page Rank\cite{chp6page1999pagerank}}\\
+    \item {Page Rank\cite{chp6page1999pagerank} (PR)}\\
     PageRank is an algorithm used by Google Search to rank websites in their search engine results. It can be applied on other kinds of graph to estimate the importance of the nodes.
     \item {Random} \\
     We just randomly choose one node from the graph.
-    \item {Top tags} \\
-    The topic modeling algorithm generates a topic-word distribution to indicate to what extent a word is related to a topic. By sorting words' corresponding probabilities, we can obtain a ranked word list for each topic, which are the top related words in each topic. A naive approach can use the first one or two tags to label each topic. 
-
+    \item {Top tags (Top)} \\
+    The topic modeling algorithm generates a topic-word distribution to indicate to what extent a word is related to a topic. By sorting words' corresponding probabilities, we can obtain a ranked word list for each topic, which are the top related words in each topic. A naive approach can use the first tag or first two tags to label each topic. 
 \end{itemize}
 
-\subsection{Experiments: A survey study}
-In order to evaluate the performances of the different ways to generate labels we conducted user studies on the results. We designed two surveys for the user study. Table \ref{tab:chp6survey} shows the structure of the survey we used. For each survey, we listed 30 topics, half of them are from StackOverflow dataset, half of them are from Flickr dataset. The only difference for survey A and B is the linking (disambiguation) method. As mentioned in section \ref{sec:chp6secSolution}, we use both cosine similarity and babelfy to link tag with DBpedia resources. 
+%TODO Cath : I added this her. TO be checked
+We proposed a method called "Most+Top" which consists in creating the list of  the most recommended labels by all the above algorithms and then creating a label from this list by using the \"Top tags\" algorithm. 
+
+
+\section{Experiments: A survey study}
+In order to evaluate the performances of the different ways to generate labels we conducted user studies on the results. We designed two surveys for the user study. Table \ref{tab:chp6survey} shows the structure of the survey we used. For each survey, we listed 30 topics, half of them are from StackOverflow dataset, half of them are from Flickr dataset. 
+The only difference for survey A and B is the linking (disambiguation) method. As mentioned in section \ref{sec:chp6secSolution}, we use both cosine similarity and Babelfy to link tags with DBpedia resources. 
+
+%TODO Cath is the table correct? and the text above? I do not understand in which case you use the cosine similarity and in which case yu use Babelfy
 
 \begin{table}[htp]
 \caption{Survey description}
 \label{tab:chp6survey}
 \centering
-\begin{tabular}{c|c|c}
+\begin{tabular}{|c|c|c|}
 \hline
-             &  15 StackOverflow Topic& 15 Flickr Topic \\ \hline
-    Survey A & Cosince Similairy & Babelfy\\ \hline  
+             &  15 StackOverflow Topics & 15 Flickr Topics \\ \hline
+    Survey A & Cosine Similairy & Babelfy\\ \hline  
     Survey B &  Babelfy          & Babelfy\\ \hline
 \end{tabular}
 
 \end{table}
 
 
-\subsubsection{Users' agreement}
-We use Krippendorff's Alpha\footnote{\url{https://en.wikipedia.org/wiki/Krippendorff\'s_alpha}} score to evaluate the degree of agreement among judges. The score indicates the homogeneity, or consensus, in the ratings given by judges. The score is always smaller than 1, $\alpha = 1 $ indicates the judges reach a perfect agreement and $\alpha =0 $ indicates the judges do not agree at all. When $\alpha <0 $ this means that judges reached a disagreement exceeding what can be expected by chance.  Figure \ref{fig:chp6alpha} illustrates the alpha score for 15 topics in each dataset and the average alpha score. We evaluate this score in three levels which correspond to the three sub figures. If we consider the top voted label as the best label, the first figure shows the agreement score among users. When we lower this limitation and consider the set of the top voted two labels as the best label, we can find that for most of the topics users could reach a good agreement. When we keep lowering this limitation and consider the top three voted labels as the best label, we can find there reach an excellent agreement. 
+\subsection{Users' agreement}
+We use Krippendorff's Alpha\footnote{\url{https://en.wikipedia.org/wiki/Krippendorff\'s_alpha}} score to evaluate the degree of agreement among users. The score indicates the homogeneity, or consensus, in the ratings given by users. The score is always smaller than 1, $\alpha = 1 $ indicates the judges reach a perfect agreement and $\alpha =0 $ indicates the judges do not agree at all. When $\alpha <0 $ this means that judges reached a disagreement exceeding what can be expected by chance.  
+Figure \ref{fig:chp6alpha} illustrates the alpha score for 15 topics in each dataset and the average alpha score. We evaluate this score in three levels which correspond to the three sub figures. If we consider the top voted label as the best label, the first figure shows the agreement score among users. When we lower this limitation and consider the set of the top voted two labels as the best label, we can find that for most of the topics users could reach a good agreement. When we keep lowering this limitation and consider the top three voted labels as the best label, we can find that they reach an excellent agreement. 
 
+%TODO Cath check the captions I added to all the following figures
 
+%TODO Cath remove Agreement Alpha Score on your 3 subfigures
 
 \begin{figure}[htp]
-\caption{}
+\caption{Agreement Alpha Score on the top X labels}
 \label{fig:chp6alpha} 
 \centering
 \includegraphics[width=5in]{chp6alpha.jpeg}  
 \end{figure}
 
+%TODO Cath correct in your 3 subfigures: percentage od users agreeing on ...
 
 In addition, we calculate the proportion of top voted labels. Figure \ref{fig:chp6top} shows the number of topics which top voted labels take a certain proportion.
 \begin{figure}[htp]
 \centering
 \includegraphics[width=5in]{chp6top.jpeg}  
-\caption{}
+\caption{Number of topics as a function of the proportion of the top X voted labels}
 \label{fig:chp6top} 
 \end{figure}
-X-axis are the proportion, Y-axis are the number of topics. A data point ($50\%$,6) in the first sub figure means that there are 6 topics which first voted labels takes $50\%$ percent of all voted labels. A data point ($50\%$,6) in the second sub figure means that there are 6 topics which top two voted labels take $50\%$ percent of all voted labels. Similarly, A data point ($50\%$,6) in the third sub figure means that there are 6 topics which top three voted labels take $50\%$ percent of all voted labels. We can find that most of the labels chosen by judges are actually highly voted labels, which means all judges tend to agree on the top two or three labels.
+Proportion of top voted labels are plotted on the X-axis, and numbers of topics are plotted on the Y-axis. For instance, a data point ($50\%$,6) in the first sub figure means that there are 6 topics which first voted labels takes $50\%$ percent of all voted labels. A data point ($50\%$,6) in the second sub figure means that there are 6 topics which top two voted labels take $50\%$ percent of all voted labels. Similarly, a data point ($50\%$,6) in the third sub figure means that there are 6 topics which top three voted labels take $50\%$ percent of all voted labels. These three figures show that most of the labels chosen by judges are actually highly voted labels, which means all judges tend to agree on the top two or three labels.
 
 
 
 
-\subsubsection{Quality evaluation: NDCG measurement}
-We use NDCG metric to evaluate all the algorithms listed in Section \ref{sec:chp6secSolution}. The Normalized DCG (NDCG) is introduced to compare different ranking list. The value of NDCG is between 0.0 and 1.0. In our scenario, a NDCG@p value of 1.0 means detected interests and their order are totally the same as the labeled data until position \textit{p}, while a NDCG@p value of 0.0 means that the detected interests are completely different from the labeled data. For values between 0.0 to 1.0, it means that the detected interests are partially correct or ordered incorrectly. %It still 
-Here, we evaluate NDCG@1, NDCG@2, and NDCG@3. The algorithm can generate a ranked label list. We sort the labels according to the number of votes from the survey as ideal ranking list. We also propose a method called "Most+Top". We created a label list by choosing a label which is the most recommended by all algorithms and labels from the \"Top tags\" algorithm. We can find that most of the algorithms can predict the good labels for a topic. Especially, if we consider giving two labels for a topic, our proposed method has very good results on all the datasets, which means for all the topics, the method can generate two good labels to represent the meaning of the topic.
+\subsection{Quality evaluation: NDCG measurement}
+We use the NDCG metric to evaluate all the algorithms listed in Section \ref{sec:chp6secSolution}. The Normalized DCG (NDCG) is introduced to compare different ranking lists. The value of NDCG is between 0.0 and 1.0. In our scenario, a NDCG@p value of 1.0 means detected interests and their order are totally the same as the labeled data until position \textit{p}, while a NDCG@p value of 0.0 means that the detected interests are completely different from the labeled data. Values between 0.0 to 1.0 mean that the detected interests are partially correct or ordered incorrectly. 
+%It still 
+Here, we evaluate NDCG@1, NDCG@2, and NDCG@3. The algorithm can generate a ranked label list. We sort the labels according to the number of votes from the survey as ideal ranking list. 
+We can find that most of the algorithms can predict the good labels for a topic. Especially, if we consider giving two labels for a topic, our proposed method "Most+Top" has very good results on all the datasets, which means for all the topics, the method can generate two good labels to represent the meaning of the topic.
+
+%TODO Cath remove "different algorithms" in your 3 subfigures
 
 \begin{figure}[htp]
 \centering
@@ -311,5 +293,7 @@ Here, we evaluate NDCG@1, NDCG@2, and NDCG@3. The algorithm can generate a ranke
 
 
 
-\section{summary: represent a topic with labels}
-In this chapter, we discussed how we used DBpedia as external knowledge to help choosing labels to turn bags of words into meaningful topics. From the user survey we found that users can reach a good agreement on a composite labels. Therefore, it is more reasonable to have more than one keyword to label the bag of words of atpoic. We also proposed a hybrid solution by combing results from different algorithms to generate composite labels to represent a topic. In the next chapter, we will focus on how to extract more sophisticated social information such as expertise, activity and trends.
+\section{Summary: representing a topic with labels}
+In this chapter, we discussed how we used DBpedia as external knowledge to help choosing labels to turn bags of words into meaningful topics. From the user survey we found that users can reach a good agreement on composite labels. Therefore, it is more reasonable to have more than one keyword to label the bag of words of a topic. We also proposed a hybrid solution by combining results from different algorithms to generate composite labels to represent a topic. 
+
+In the next chapter, we will focus on how to extract more sophisticated social information such as expertise, activity and trends.
