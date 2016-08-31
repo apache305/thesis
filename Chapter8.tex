@@ -3,10 +3,44 @@
 \label{chap:intro}
 \minitoc
 
+\section{Summary of contributions}
 
 
-In this thesis, we addressed several research questions: \textit{How can we identify the common topics binding users together? How can we detect topic based overlapping communities? How can we extract topic based expertise and temporal dynamics?}. By applying the original  LDA model on these tasks, we encountered three problems. The first one is a lack of efficiency: the complexity of the probabilistic model was prohibitive. The second problem is that the original LDA model is not enough to extract temporal and expertise information. The third one is an incomparability problem. The detected probabilities distributions cannot be compared with each other. 
-Therefore, firstly, we proposed TTD a simpler method to detect topics and overlapping communities to solve the first problem. We conducted experiments on a dataset from the popular Q\&A site StackOverflow to compare different approaches. The results indicate that for this kind of web communities our method can be a good replacement to more complicated methods for detecting overlapping communities of interests.
-Secondly, we proposed TTEA a more complex model to extract more information from user generated content and to fix the others problems. Our model can simultaneously uncover the topics, activities, expertise and temporal dynamics. This extracted information can enable us to improve tasks such as: question routing, expert recommendation and community life-cycle management. Again, we conducted experiments on StackOverflow dataset. We demonstrated that TTEA shows advantages in topic modeling. It also achieves good performances on question routing task and expert detection task compared with the state of the art models. We also illustrated that our model can detect user and topic temporal dynamics which could be used on user life-cycle management.
+In this thesis, we addressed several research questions such as: How to formalize user-generated content? How can we identify the common topics binding users together? How can we generate a semantic label for topics? How can we detect topic-based overlapping communities? How can we extract topics-based expertise and temporal dynamics? To answer these research questions, we conduct our study on a data set from a popular question answer site. 
+First we design schema to formalize both explicit information such as user-generated content and implicit information such communities, topics and temporal dynamics.
+Then we applied the original LDA model to extract these implicit information from the original user-generated content. Based on that, we extend our work in three directions: Firstly, we try to solve the efficiency problem of the original LDA model. Secondly we try to automatically generate semantic labels for bag of words which is the output of the original LDA model. Thirdly, we modify the original LDA model to enable it extract temporal, expertise information from user-generated content. 
 
-There are many future directions for this work. It is obvious that the proposed models and methods are not limited to the processing of Q\&A datasets and we intend to adapt them to other kinds of social media.
+The major contributions of this thesis are as follows.
+\begin{itemize}
+\item{\textbf{How to formalize user-generated content?} We designed a prototype system to formalize both implicit and explicit information in question answer site, to extract the implicit information from the original explicit user-generated content, and to provide useful services by using these detected information. Besides, we proposed a vocabulary used to formalize the detected information.}
+
+\item{\textbf{How can we identify the common topics binding users together?} We present a topic tree distribution method to extract topics from tags. We also propose a first-tag enrichment method to enrich questions which only have one or two tags. We show the effectiveness and efficiency of our topic extraction method.}
+
+\item{\textbf{How can we generate a semantic label for topics?} We propose and compare metrics and provide a method using DBpedia to generate adequate labels for a bag of words capturing a topic.}
+
+\item{\textbf{How can we detect topic-based overlapping communities?} Based on our topic extraction method, we present a method to assign users to different topics in order to detect overlapping communities of interest.}
+
+\item{\textbf{How can we extract topics-based expertise and temporal dynamics?} we present a joint model to extract topic-based expertise and temporal dynamics from user-generated content. We also propose a post-processing method to model user activity. Traditionally, this information has been modeled separately.}
+
+\end{itemize}
+
+
+
+\section{Perspective: Limitation and Future work}
+
+We listed several perspective regarding to each research questions.
+\begin{itemize}
+\item{\textbf{How to formalize user-generated content?}
+We only discussed that how to formalize the implicit and explicit information of a social media website, especially a question answer site. However, people are using different kinds of social media websites at the same time. We do not conduct our research on how to formalize and integrate several social media websites and extract the implicit information from them. Such as a user who is interested in economy topic in Youtube may also interested in the same topic in Twitter. A user's decreasing activity in one social media site may indicate a decreasing activity in other social media site.}
+
+\item{\textbf{How can we identify the common topics binding users together?} We designed a efficient method to extract topic from tags on question answer sites. However, some social media site does not support assign tags on user-generated content. A solution could be studying how to automatically generate several keywords or tags from a user-generated content.}
+
+\item{\textbf{How can we generate a semantic label for topics?} We use DBpedia as external knowledge to help generate label to capturing meaning of topics. A key step of our method is to link the words of a topic to DBpedia. However, there are many words have no links to the DBpedia knowledge base. One solution could be using more linked open data to obtain more links.}
+
+\item{\textbf{How can we detect topic-based overlapping communities?} The social network on question answer site is different with traditional relation-based social network. Users are focusing more on the contents rather than links between them. However, for some social media site, users are activating mainly based on social links  or by both social links and common interest. In these cases, a solution could be combining graph-based overlapping community detection method and our method.}
+
+\item{\textbf{How can we extract topics-based expertise and temporal dynamics?} It is obvious that the proposed models and methods are not limited to the processing of Q\&A data set. It is worth to apply and adapt our model on other kinds of social media website. In addition, we do not make full use of the extracted user and topic temporal information. A potential work could be combining all the extracted information to optimize question routing and user recommendation task.  }
+
+\end{itemize}
+
+
