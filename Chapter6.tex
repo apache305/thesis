@@ -151,9 +151,17 @@ Besides, each resource in DBpedia has a description.  We used the DBpedia keywor
 \label{fig:chp6lookup} 
 \end{figure}
 
-In order to link \textit{java} to the correct DBpedia resource, we compute the cosine similarity between the two descriptions from the two websites (StackOverflow and DBpedia) to solve the disambiguation problem. The  entire procedure is as follows:
+In order to link \textit{java} to the correct DBpedia resource, we compute the cosine similarity between the two descriptions from the two websites (StackOverflow and DBpedia) to solve the disambiguation problem. We show an example in Figure \ref{fig:chp6cosine}. The  entire procedure is as follows:
 
 %TODO Cath use a presentation like in the previous chapters for algorithms
+% check the fig below
+\begin{figure}[htp]
+\centering
+\includegraphics[width=5in]{chp6cosine.jpg}  
+\caption{The example of disambiguation by computing the cosine distance of the descriptions }
+\label{fig:chp6cosine} 
+\end{figure}
+
 
 \begin{enumerate}
     \item{crawl the tag description from StackOverflow}
@@ -161,6 +169,8 @@ In order to link \textit{java} to the correct DBpedia resource, we compute the c
     \item{compute the cosine distances between the description from StackOveflow and the description of each retrieved resource}
     \item{link the tag to the resource with the highest similarity}
 \end{enumerate}
+
+
 
 
 \subsection{Creating graphs: retrieving potential links between resources}

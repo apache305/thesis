@@ -4,13 +4,29 @@
 \minitoc
 
 \section{Summary of contributions}
+%TODO FAB: I added the two next paragraphs
+Although the Web always was a social object, the Web 2.0 evolution allowed users to very easily interact and collaborate with each other in a social media platform as creators of user-generated content and members of communities and social networks. When analyzing the social Web activities and productions, it is crucial to jointly both aspects: the user-generated contents and the user-generated interactions.
 
+In this thesis, we proposed a framework, which combines social network analysis, social media mining and semantic web technologies, to help manage user-generated content websites. The main motivating scenario for our research was the case of question-and-answer sites (Q\&A sites), which is a very rich and special case of user-generated content (UGC) website and (implicit) communities of interests. Through the archived questions and answers Q\&A sites rapidly became huge repositories of potentially reusable knowledge requiring efficient search and access means. They also capture social interactions and structures that can help navigate the knowledge repository by providing interest and expertize indicators.
 
-In this thesis, we addressed several research questions such as: How to formalize user-generated content? How can we identify the common topics binding users together? How can we generate a semantic label for topics? How can we detect topic-based overlapping communities? How can we extract topics-based expertise and temporal dynamics? To answer these research questions, we conduct our study on a data set from a popular question answer site. 
-First we design schema to formalize both explicit information such as user-generated content and implicit information such communities, topics and temporal dynamics.
-Then we applied the original LDA model to extract these implicit information from the original user-generated content. Based on that, we extend our work in three directions: Firstly, we try to solve the efficiency problem of the original LDA model. Secondly we try to automatically generate semantic labels for bag of words which is the output of the original LDA model. Thirdly, we modify the original LDA model to enable it extract temporal, expertise information from user-generated content. 
+Therefore we addressed several research questions such as:
+\begin{itemize}
+\item{How to formalize user-generated content? How can we identify the common topics binding users together?}
+\item{How can we generate a semantic label for topics? How can we detect topic-based overlapping communities?}
+\item{How can we extract topics-based expertise and temporal dynamics?}
+\end{itemize}
 
-The major contributions of this thesis are as follows.
+To answer these research questions, we conducted a study on a data set from the popular question answer site Stack Overflow. 
+First we designed reused and designed Semantic Web schemas to formalize both the explicit information such as user-generated content and the implicit information such as detected communities, topics and temporal dynamics obtained as a result of our analysis.
+Then we applied the original LDA model as a first approach to extract these implicit information from the original user-generated content. Based on the results and performances, we extended our work in three directions:
+
+\begin{itemize}
+\item{Firstly, we addressed the efficiency problem of the original LDA model.}
+\item{Secondly we automatically generated semantic labels for bag of words which is the output of the original LDA model.}
+\item{Thirdly, we proposed a new LDA model supporting the extraction of temporal trends and expertise indicators from user-generated content.}
+\end{itemize}
+
+To summarize we consider the major contributions of this thesis are:
 \begin{itemize}
 \item{\textbf{How to formalize user-generated content?} We designed a prototype system to formalize both implicit and explicit information in question answer site, to extract the implicit information from the original explicit user-generated content, and to provide useful services by using these detected information. Besides, we proposed a vocabulary used to formalize the detected information.}
 
@@ -24,23 +40,32 @@ The major contributions of this thesis are as follows.
 
 \end{itemize}
 
+%TODO FAB: No screenshots of your prototype? nothing on the application you targeted?
+
+These results were published in international conferences and journals:
+%TODO FAB: add the list of your publications in chronological order with a one sentence summary of the paper for each item
+
+\begin{itemize}
+\item{}
+\end{itemize}
 
 
-\section{Perspective: Limitation and Future work}
+\section{Perspectives: current limitations and future work}
 
-We listed several perspective regarding to each research questions.
+We can group current limitations and perspective according to the research questions we addressed:
 \begin{itemize}
 \item{\textbf{How to formalize user-generated content?}
-We only discussed that how to formalize the implicit and explicit information of a social media website, especially a question answer site. However, people are using different kinds of social media websites at the same time. We do not conduct our research on how to formalize and integrate several social media websites and extract the implicit information from them. Such as a user who is interested in economy topic in Youtube may also interested in the same topic in Twitter. A user's decreasing activity in one social media site may indicate a decreasing activity in other social media site.}
+We only considered formalizing implicit and explicit information of social media websites, especially question answer sites. However, people are using different kinds of social media websites at the same time. We did not conduct research on how to formalize and integrate several social media websites and extract implicit information from the integrated view. For instance a user who showed a interest in economy topics on Youtube may also be interested in the same topic on other platforms. Likewise, a user decreasing his activity in one social media site may indicate a decreasing activity in other social media site (e.g. busy time) or not (e.g. shifting platforms).}
 
-\item{\textbf{How can we identify the common topics binding users together?} We designed a efficient method to extract topic from tags on question answer sites. However, some social media site does not support assign tags on user-generated content. A solution could be studying how to automatically generate several keywords or tags from a user-generated content.}
+\item{\textbf{How can we identify the common topics binding users together?} We designed an efficient method to extract topic from tags on question answer sites. However, some social media site do not support social tagging on user-generated content. A solution could be to study how to automatically select several keywords or tags for user-generated content and how existing approaches for these questions combine with our analysis.}
 
-\item{\textbf{How can we generate a semantic label for topics?} We use DBpedia as external knowledge to help generate label to capturing meaning of topics. A key step of our method is to link the words of a topic to DBpedia. However, there are many words have no links to the DBpedia knowledge base. One solution could be using more linked open data to obtain more links.}
+\item{\textbf{How can we generate a semantic label for topics?} We use DBpedia as external knowledge to help generate labels capturing the meaning of topics. A key step of our method is to link the words of a topic to DBpedia. However, many of these words have no links to the DBpedia knowledge base. One solution could be using more linked open data sources to obtain more links.}
 
-\item{\textbf{How can we detect topic-based overlapping communities?} The social network on question answer site is different with traditional relation-based social network. Users are focusing more on the contents rather than links between them. However, for some social media site, users are activating mainly based on social links  or by both social links and common interest. In these cases, a solution could be combining graph-based overlapping community detection method and our method.}
+\item{\textbf{How can we detect topic-based overlapping communities?} The social network on question answer site is different with traditional relation-based social network. Users are focusing more on the contents rather than links between them. However, for some social media site, users are interacting and maintaining explicitly social links. In these cases, a perspective would be to combine graph-based overlapping community detection methods with our method.}
 
-\item{\textbf{How can we extract topics-based expertise and temporal dynamics?} It is obvious that the proposed models and methods are not limited to the processing of Q\&A data set. It is worth to apply and adapt our model on other kinds of social media website. In addition, we do not make full use of the extracted user and topic temporal information. A potential work could be combining all the extracted information to optimize question routing and user recommendation task.  }
+\item{\textbf{How can we extract topics-based expertise and temporal dynamics?} It is obvious that the proposed models and methods are not limited to the processing of Q\&A data set. We should study how to apply and adapt our model to other kinds of social media websites. In addition, we do not make full use of the extracted user and topic temporal information. A potential work could be combining all the extracted information to optimize question routing and user recommendation tasks and in general provide new functionalities to community managers.}
 
 \end{itemize}
+
 
 

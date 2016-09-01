@@ -18,7 +18,8 @@ In Chapter \ref{chap:lda}, we applied the original LDA model and we found it is 
 \subsection{First-Tag Enrichment: adding a more general tag when needed}
 When sorting the tags of a question by their global frequency, we found that normally the first tag of a question is much more general and indicates the domain of the question. For example, a question tagged with \{\textit{c\#}, \textit{iostream}, \textit{fstream}\} is related to \textit{c\#}; a question tagged with \{\textit{html}, \textit{css}, \textit{height}\} is related to \textit{html}. However, there are also some questions which have less tags and, in this case, the tags are less popular, like a question tagged with \{\textit{ant}\} or a question tagged with \{\textit{qt}, \textit{boost}\}. For these questions, the main domain is implicit. Our experiment dataset shows that nearly $12\%$ of the questions only have one tag, and nearly $25\%$ of the questions only have two tags.
 
-% TODO: justify the heuristics, do you have the metrics we talked about eg correlation between frequency and rank ?    
+% TODO: justify the heuristics, do you have the metrics we talked about eg correlation between frequency and rank ? 
+% in chp6. we can find that top tag have good performance to indicate the meaning of topic. I think this can be a proof.
 
 
 Therefore, we propose an approach to enrich a question with a first tag when needed. The first step of our approach consists in computing the first-tag distribution.
@@ -252,9 +253,9 @@ labeled user & 902 users, 1$\sim$3 labels per user\\
 
 
 \subsection{Performance of Topic Extraction: perplexity metric}
-We use the Perplexity~\cite{blei2003latent} metric to measure the topic extraction performance. It is a common metric in the topic modeling area, measuring how well the words in test documents are represented by the word distribution of extracted topics. The intuition is that a better model will tend to assign higher probabilities to the test dataset, corresponding to a lower perplexity value. We split the dataset (question tag lists), 80\% as training set, 20\% as testing set.
+We use the Perplexity~\cite{blei2003latent} metric to measure the topic extraction performance. It is a common metric in the topic modeling area, measuring how well the words in test documents are represented by the word distribution of extracted topics. The intuition is that a better model will tend to assign higher probabilities to the test dataset, corresponding to a lower perplexity value. We split the dataset (question tag lists by randomly shuffling), 80\% as training set, 20\% as testing set.
 % TODO: do we need to to a k-fold cross validation or not?
-% TBD
+% i randomly shuffled the original data.
 We run LDA and our method on the training set to get the topic distribution. Then for a test set of M questions' tag lists ($N_d$ denotes the number of tags in the $d^{th}$ question) the Perplexity score is computed as shown in equation \ref{eq:gettagperplexity}:
 %\begin{small}
 \begin{equation}

@@ -59,9 +59,9 @@ Existing work mainly focus on how to formalize the explicit information in Q\&A 
 It reuses some class and property from SIOC (with soic: prefix), Dublin Core (with dcterms: prefix) and Weighted-Object (with wo: prefix)\footnote{\url{http://smiy.sourceforge.net/wo/spec/weightingontology.html} (accessed Aug 2016)}. 
 
 % TODO: each and every notion above should be checked in LOV for alignment, reuse, comparison, etc.
-%checked and updated
-%try to reuse as much as possible. 
-%explained the added parts.
+%note zide checked and updated
+%note zide try to reuse as much as possible. 
+%note zide explained the added parts.
 Table \ref{tab:qaontoclass} shows its main classes.
 Table \ref{tab:qaontoproper} shows several properties used in our work. 
 
@@ -151,19 +151,22 @@ Here are the main new classes and properties introduced in the QASM vocabulary:
 \item \texttt{qasm:expertiseIn} is used to describe the user-expertise distribution. A user has different weights for different topics. The FRAPO ontology\footnote{\url{http://purl.org/cerif/frapo/hasExpertise} (accessed Aug 2016) } has a 'hasExpertise' property to describe a user having an expertise in a specified research area. Our model not only enables to describe a user having expertise on a topic, but also formalizes to what extent a user has expertise.
 
 \item \texttt{qasm:isPopularAt} is used to describe the topic-time distribution. A topic has different popularity at different time interval.
-%did not found any similar.
+%note zide did not found any similar.
 
 \item \texttt{qasm:hasActiveUser} is used to describe the topic-user distribution. Different users perform different activities on a topic.
-%did not found any similar
+%note zide did not found any similar
 \end{itemize}
 
 
 % TODO: have you looked at the SCOT ontology? have you searched for your terms in the LOV directory ? example FOAF interest relation ? e.g. http://lov.okfn.org/dataset/lov/terms?q=interest
 % This should be done for every primitive and the reasons for aligning or not should be given in the thesis. 
 
+%note zide. checked.
+
 
 \section{Formalizing Stackoverflow data with the QASM vocabulary}
 %TODO you are missing one section describing the structure of the Stackoverflow data (dump), its format and the mapping between this structure and your vocabulary ; in other words in the introduction you say you will present the eaxtraction an formalization but you did not cover the extraction/mapping part. You need to add that to this chapter.
+%done
 
 We obtained the data dump of Stackoverflow from the website\footnote{\url{https://archive.org/details/stackexchange} (accessed Aug 2016)}. It includes all user-contributed content on the Stack Exchange network. Each site is formatted as a separate archive consisting of XML files. Each dataset includes Posts, Users, Votes, Comments, PostHistory and PostLinks and the schema information.
 
@@ -175,6 +178,7 @@ A first step is to map the original dataset to the QASM vocabulary.
 %TODO Cath you should not repeat again here which vocabularies are reused but the NIE ontology is not previously mentioned. You should do it in the section describing the QASM ontology
 %For the "Posts.xml", 
 %TODO Cath: what is Posts.xml
+%note zide .the original dataset download from stackoverlfow.
 The original schema elements and mapping QASM concepts are listed in table \ref{tab:mappingstackoverflow}.
 
 \begin{sidewaystable}
