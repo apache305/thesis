@@ -49,7 +49,63 @@
 
 \section*{Acknowledgments}
 
-The author would like to thank StackOverflow for sharing their data. We thank the ANR-12-CORD-0026 Ocktopus project grant for the support of this research. 
+I would like to express my sincerely thanks to my supervisors Fabien Gandon and Catherine faron-zucker for their great help, support, inspire and advise. I am very lucky to have them as my supervisors since they support me not only on the research, but also on many aspects of my life. 
+
+I would also like to thank the rest of my thesis committee for their precious time, insightful comments and helpful suggestions. I could not finish my thesis without all the helps.
+
+I would like to thank the Octopus project (ANR-12-CORD-0026) for the financial support of my research. I would also like to thank our project partners for all the collaborations and meetings. It is a great pleasure to work with them.
+
+I would also to thank the SMILK project for the financial support of my research and the chance of applying my work on real-world data set.
+
+I would like to thank INRIA Wimmics team. It is an friendly and internal environment where I spent a great time with all my colleagues.
+
+I would like to thank Christine Foggia for all her help and support.
+
+I would like to thank my dear friends who always being their supporting me and encouraging me. I also want to thank Sophie for her help and support. Especially, I would like to thank Fuqi Song for helping me to get over many difficult time. I am so lucky to have all of them.
+
+I would like to thank shanshan for her love and support. I am happy and lucky to have her with me.
+
+I would like to express my deeply love and thanks to my family for their supporting and understanding whenever and wherever.  
+
+
+
+
+
+
+
+\cleardoublepage
+\section*{Abstract}
+We propose an approach to detect topics, overlapping communities of interest, expertise, trends and activities in user-generated content sites and in particular in question-answering forums such as StackOverFlow. We first describe QASM (Question \& Answer Social Media), a system based on social network analysis to manage the two main resources in question-answering sites: users and contents. We also introduce the QASM vocabulary used to formalize both the level of interest and the expertise of users on topics. We then propose an efficient approach to detect communities of interest. It relies on another method to enrich questions with a more general tag when needed.  We compared three detection methods on a dataset extracted from the popular Q\&A site StackOverflow. Our method based on topic modeling and user membership assignment is shown to be much simpler and faster while preserving the quality of the detection. We then propose an additional method to automatically generate a label for a detected topic by analyzing the meaning and links of its bag of words. We conduct a user study to compare different algorithms to choose the label. Finally we extend our probabilistic graphical model to jointly model topics, expertise, activities and trends. We performed experiments with real-world data to confirm the effectiveness of our joint model, studying the users\’ behaviors and topics dynamics.
+
+\textbf{Keywords:}
+
+social semantic web, social media mining, probabilistic graphical model, question answer sites,  user-generated content, topic modeling, expertise detection, overlapping community detection
+
+\cleardoublepage
+\section*{R\'esum\'e}
+Nous proposons une approche pour d\'etecter les sujets, les communaut\'es d'int\'er\^et non disjointes, l'expertise, les tendances et les activit\'es dans des sites o\`u le contenu est g\'en\'er\'e par les utilisateurs et en particulier dans des forums de questions-r\'eponses tels que StackOverFlow. Nous d\'ecrivons d'abord QASM (Questions \& R\'eponses dans des m\'edias sociaux), un syst\`eme bas\'e sur l'analyse de r\'eseaux sociaux pour g\'erer les deux principales ressources d’un site de questions-r\'eponses: les utilisateurs et le contenu. Nous pr\'esentons \'egalement le vocabulaire QASM utilis\'e pour formaliser \`a la fois le niveau d'int\'er\^et et l'expertise des utilisateurs. Nous proposons ensuite une approche efficace pour d\'etecter les communaut\'es d'int\'er\^ets. Elle repose sur une autre m\'ethode pour enrichir les questions avec un tag plus g\'en\'eral en cas de besoin. Nous comparons trois m\'ethodes de d\'etection sur un jeu de donn\'ees extrait du site populaire StackOverflow. Notre m\'ethode bas\'ee sur le se r\'ev\`ele \^etre beaucoup plus simple et plus rapide, tout en pr\'eservant la qualit\'e de la d\'etection. Nous proposons en compl\'ement une m\'ethode pour g\'en\'erer automatiquement un label pour un sujet d\'etect\'e en analysant le sens et les liens de ses mots-clefs. Nous menons alors une \'etude pour comparer diff\'erents algorithmes pour g\'en\'erer ce label. Enfin, nous \'etendons notre mod\`ele de graphes probabilistes pour mod\'eliser conjointement les sujets, l'expertise, les activit\'es et les tendances. Nous le validons sur des donn\'ees du monde r\'eel pour confirmer l'efficacit\'e de notre mod\`ele int\'egrant les comportements des utilisateurs et la dynamique des sujets.
+
+\textbf{Mot-cl\'es:}
+
+web social s\'emantique,
+l'exploitation mini\`ere des m\'edias sociaux,
+mod\`ele graphique probabiliste,
+sites de r\'eponse d'interrogation, 
+contenu g\'en\'er\'e par l'utilisateur,
+sujet mod\'elisation,
+d\'etection d'expertise,
+la d\'etection de communaut\'es de chevauchement
+
+
+ 
+\cleardoublepage
+\section*{}
+\begin{vcenterpage}
+\textit{You can't connect the dots looking forward, you can only connect them looking backwards. So you have to trust that the dots will somehow connect in your future.}  --Jobs
+\end{vcenterpage}
+
+
+
 
 \tableofcontents
 
@@ -80,19 +136,19 @@ The author would like to thank StackOverflow for sharing their data. We thank th
 
 %\printnomenclature
 
-\cleardoublepage
-\begin{vcenterpage}
-\noindent\rule[2pt]{\textwidth}{0.5pt}
-\begin{center}
-{\large\textbf{Temporal and semantic analysis of richly typed social networks from user-generated content sites on the web\\}}
-\end{center}
-{\large\textbf{Abstract:}}
+% \cleardoublepage
+% \begin{vcenterpage}
+% \noindent\rule[2pt]{\textwidth}{0.5pt}
+% \begin{center}
+% {\large\textbf{Temporal and semantic analysis of richly typed social networks from user-generated content sites on the web\\}}
+% \end{center}
+% {\large\textbf{Abstract:}}
 
 
-{\large\textbf{Keywords:}}
-Overlapping community detection, Temporal analysis
-\\
-\noindent\rule[2pt]{\textwidth}{0.5pt}
-\end{vcenterpage}
+% {\large\textbf{Keywords:}}
+% Overlapping community detection, Temporal analysis
+% \\
+% \noindent\rule[2pt]{\textwidth}{0.5pt}
+% \end{vcenterpage}
 
 \end{document}
