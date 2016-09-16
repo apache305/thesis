@@ -151,7 +151,7 @@ Besides, each resource in DBpedia has a description.  We used the DBpedia keywor
 \label{fig:chp6lookup} 
 \end{figure}
 
-In order to link \textit{java} to the correct DBpedia resource, we compute the cosine similarity between the two descriptions from the two websites (StackOverflow and DBpedia) to solve the disambiguation problem. We show an example in Figure \ref{fig:chp6cosine}. The  entire procedure is as follows:
+In order to link \textit{java} to the correct DBpedia resource, we compute the cosine similarity between the two descriptions from the two websites (StackOverflow and DBpedia) to solve the disambiguation problem. We show an example in Figure \ref{fig:chp6cosine}. The  entire procedure is described as following.
 
 \begin{figure}[htp]
 \centering
@@ -161,12 +161,49 @@ In order to link \textit{java} to the correct DBpedia resource, we compute the c
 \end{figure}
 
 %TODO Cath use a code  format like in the previous chapters for this algorithm
-\begin{enumerate}
-    \item{crawl the tag description from StackOverflow}
-    \item{retrieve DBpedia resources by the lookup service}
-    \item{compute the cosine distances between the description from StackOveflow and the description of each retrieved resource}
-    \item{link the tag to the resource with the highest similarity}
-\end{enumerate}
+%done
+
+
+
+\begin{algorithm}%[htp]
+\begin{algorithmic}[1]
+\label{algo:chp6link}
+\State \textbf{Input:} \textit{ tag}
+\State \textbf{Output:} \textit{tag-DB link}
+\State \textit{//crawl the tag description from StackOverflow}
+\State \textit{tagSO}=getTagDescriptionSO( \textit{tag} )
+\State \textit{//retrieve DBpedia resources by the lookup service}
+\State \textit{tagResouces}=getResourecesDB( \textit{tag} )
+\State \textit{//compute the cosine distances between the description from StackOveflow and the description of each retrieved resource}
+\State \textit{DBLink}=NULL
+\State \textit{maxDis}=-1.0;
+\For{ \textit{tagResouce} \textbf{in} \textit{tagResouces}}
+\State \textit{dis}=consieDistance( \textit{tagSO}, \textit{tagResource.Descrition} )
+\If{ ( \textit{dis} > \textit{maxDis} )}
+\State \textit{//link the tag to the resource with the highest similarity}
+\State \textit{DBlink}=\textit{tagResource.Link}
+\State \textit{maxDis}=\textit{dis}
+\EndIf
+
+\EndFor
+\State \textbf{return} \textit{tag},\textit{DBLink}
+
+\end{algorithmic}
+\end{algorithm}
+
+
+
+
+
+
+
+
+% \begin{enumerate}
+%     \item{crawl the tag description from StackOverflow}
+%     \item{retrieve DBpedia resources by the lookup service}
+%     \item{compute the cosine distances between the description from StackOveflow and the description of each retrieved resource}
+%     \item{link the tag to the resource with the highest similarity}
+% \end{enumerate}
 
 
 
@@ -289,7 +326,7 @@ We can find that most of the algorithms can predict the good labels for a topic.
 \begin{figure}[htp]
 \centering
 \includegraphics[width=5in]{chp6ndcg.jpeg}  
-\caption{}
+\caption{NDCG score at position X}
 \label{fig:chp6ndcg} 
 \end{figure}
 

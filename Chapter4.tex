@@ -42,7 +42,11 @@ The dependencies among the variables are captured by the direction of the edges.
 The boxes represent replicated variables, which are users, topics (interests) and tags. 
 %TODO Cath : In the figure the box Topic is not an inner box. I suppose the next sentence must be revised
 %NOTE Zide the topic box (z) is an inner box.
-The outer boxes represent users, while the inner boxes represent the repeated choice of topics and tags for a user. 
+%explained.
+The Topic box represent different topic-tag distribution for each topic.
+The user box represent different user-topic distribution for each user.
+the tag box represent one topic for each tag for each user.
+
 The parameters of this model are explained in Table \ref{tab:parameters}.
 $M$ and $V$ are given while $K$, $\alpha$ and $\beta$ can be chosen. $T$ is observed through the users' tag lists. Other variables are latent variables which have to be estimated.
 

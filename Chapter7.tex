@@ -198,8 +198,7 @@ Then, we estimate $\theta_{ku}$, $\theta_{tk}$, $\theat_{ukt}$ according to the 
 \end{equation}
 
 
-%TODO Cath you may split this section into 2 sections
-%note Zide, yes, split into 2 section.
+
 \section{TTEA Model Experiments and Evaluation on StackOverflow data}\label{sec:TTEAexperiment}
 
 \subsection{Basic statistic of StackOverflow Dataset: an overview}
@@ -457,12 +456,8 @@ Table \ref{tab:qrouting} shows the results. We ran the experiments five times an
 \subsection{Experiment Parameter Sensitivity Analysis}
 \label{sec:parasetting}
 
-%TODO Cath I do not understand the title of this subsection
-%Note zide. during the experiments, i use some parameters , such as the number of topic, fliter threshold.etc. here I just vary these parameters to check the result again.
 
-%TODO Cath Start by explaining what you will focus on in this subsection.
-%DONE, check the following.
-The above experiments have shown the effectiveness of our model. However, we use some arbitrary parameters, we vary these settings and conduct the experiment again in this section.
+The above experiments have shown the effectiveness of our model. However, we used some arbitrary parameters. In this section we show the results obtained when varying the experiment settings and we analyse the sensitivity of the parameters.
 \begin{itemize}
     \item we use posts from another period of time.
     \item we vary topic number by 15, 50. We use 30 in the previous experiments.
@@ -583,15 +578,10 @@ Random&0.001&0.001&0.001&0.001&0.002&0.003&0.006&0.011&0.005&0.008&0.019&0.030 \
 %\end{table*}
 \end{sidewaystable}
 
-%TODO Cath I do not understand the first sentence
-%Note Zide. our model show the best performance again when we use posts from another period of time.
-From the above experiments, we can conclude that our model have consistent best performance on another dataset which is chosen from another period of time. 
-The performance increases when the number of topics increases. This can be explained by the fact that when the number of topics increases, the words in a topic are more concentrated. On the other hand, when the number of topics increases, many generated topics are actually very similar, and the execute time increases. 
-The performance increases means: when we keep more active users by increasing the filter threshold, which is the minimum number of posts per user. There will be more active user as the question routing candidates. In other words, if we use big filter threshold, we will have a small set of users as recommendation candidates, but this small set of users are very active (contributing more posts). If we use small filter threshold, we will have a big set of users as recommendation candidates, but some users in this big set may not very active(contributing less posts). 
-%TODO Cath I do not understand the last sentence
-%Note Zide. explained 
 
-
+From the above experiments on another dataset chosen with another period of time, we can conclude that our model have consistent best performance . 
+The performance increases when the number of topics increases. This can be explained by the fact that when the number of topics increases, the words in a topic are more concentrated. On the other hand, when the number of topics increases, many generated topics are actually very similar, and the execution time increases. 
+The performance increases means: when we keep more active users by increasing the filter threshold, which is the minimum number of posts per user. There will be more active users as the question routing candidates. In other words, when we use a high filter threshold, we get a small set of users as recommendation candidates, but these users are very active (contributing to many posts). Conversely, when we use a low filter threshold, we get a large set of users as recommendation candidates, but some of them may be not very active (contributing to view posts). 
 
 
 
