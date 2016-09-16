@@ -8,12 +8,8 @@ In Natural Language Processing (NLP), Latent Dirichlet Allocation (LDA) \cite{bl
 It is used to detect latent topics from documents by constructing a three-layer probabilistic graphical model: document-topic-word. In this three-layer model, documents and words can be observed from a dataset, while topics are a hidden layer which has to be estimated from the observed data.  
 In StackOverflow, a user submits a question, then assigns 1$\sim$5 tags to indicate the key topics touched by this question. Other users who are interested in the question may provide answers to the question or comment on the question or others' answers. Therefore the main structuring graph in StackOverflow is the question-answer graph. As tags attached to a question  reflect its scope and domain, users answering a question can be considered as interested by this domain. As a result, a first approach to detect user communities is to consider that a user answering a question acquires the tags attached to this question and that gradually, each user acquires a list of tags associated with frequencies. If we treat the user as a document and tags acquired by the user as words in a document, then community detection can be considered as a clustering problem where users with similar topics of interest are grouped into the same cluster forming a community of interest.
 
-%TODO Cath I think that the definition of the problem in chapter 5 should come here
-%moved.
 
 \subsection{Problem Definition: mining topics and communities}
-%TODO Cath I think that this subsectin shld disappear. The formalisation should go in the introduction of chapter 4
-%yes, they are the same.
 
 The problem of mining topics and communities in Q\&A platforms can be formalized as follows:
 
@@ -156,9 +152,7 @@ where $C_u^k$ is the number of tags assigned to topic $k$ of user $u$ , $C_k^t$ 
 
 
 \section{First experiments: finding topics and communities with adapted LDA}
-%TODO: FAB: here we are missing details on (1) the dataset characteristics - the dataset of your PhD must be described either at the begining and reference with a unique identifier and reference to the description section if they are used in several chapters OR before the experiment where they are used if they are used only once (2) the implementations, languages, libaries, etc. you used to perform the experiment.
 
-%done
 We ran the above described model on a dataset from the popular Q\&A site StackOverflow between 2008 and 2009, which is available online\footnote{\url{https://archive.org/details/stackexchange}}. Some basic statistics of the dataset are given in Table \ref{tab:stackoverflowdata}. We see that the total number of users is around 100K and among them, 47K users submitted at least one question, and 54K users answered at least one question. The total number of tags attached to questions is 24K, and 20\% of them are used more than 10 times. The frequency of tags follows a power law distribution. The total number of posts is 1.1M; among them there are 242K questions and 870K answers. Each question is attached with 1 to 5 tag as a tag list. Each user being represented by her tag lists. 
 
 \begin{table}[htp]
@@ -179,10 +173,7 @@ total number of posts & 1.1M (242K questions, 870K answers) \\
 \end{table}
 
 
-
-%TODO Cath: what do you mean in the following sentence: You used an existing Python implementation of the LDA algorithm (and possibly made some modifications/extensions) (in this case you must cite/refer to it) or you developed your own implementation of LDA in Python?
-%NOTE Zide I implement python version of lda.
-We use Python implement the LDA algorithm to create a user-topic-tag model as explained above.
+We implemented the LDA algorithm in Python to create a user-topic-tag model as explained above.
 A first result when running the algorithm is the probability for each tag to belong to each topic. 
 Table \ref{tab:ldaresult1} shows eight examples of the detected topics of interest, each column showing one topic, and the ten rows giving the top 10 tags for each topic, sorted by descending weights. The weight of a tag is the probability of the tag to belong to the topic.  
 This table shows that each topic has a clear and focused interest. For example, topic 1 has c-development related tags, topic 2 has java-development related tags, topic 3 has c\#-development related tags, topic 4 has html-development related tags, topic 5 has iphone-development related tags, topic 6 has database related tags, topic 7 has linux-development related tags, topic 8 has non-programming related tags. 
@@ -317,14 +308,11 @@ However, we found that there are three limitations when applying LDA models to o
 \begin{itemize}
 \item The first one is a lack of efficiency: the complexity of the probabilistic model was prohibitive. \cite{chp7ldatimecomplexity} shows that the complexity of each iteration of the Gibbs sampling for LDA is linear with the number of topics and the number of documents, which is $O(kn)$, $k$ representing the number of topics, $n$ representing the number of posts. Besides, \cite{griffiths2004finding} proved that LDA model requires a few hundreds of iterations to obtain a stable topic distribution. Thus, it is necessary to improve the efficiency.
 
-\item The second limitation is that the original LDA model does not enable to extract temporal and expertise information. The observed data in LDA model are only user and tag/word. However, there are actually more information that can be observed in the dataset, such as temporal information and vote information. We aim to extend the original LDA model to extract temporal and expertise information, which will be used to solve question routing task, etc.
-%TODO: FAB explain why i.e. what is missing in the model to achieve that
-%DONE
+\item The second limitation is that the original LDA model does not enable to extract temporal and expertise information since the observed data in LDA model are limited to users and tags/words. However, there are actually more information that can be observed in the dataset, such as temporal information and vote information. We aim to extend the original LDA model to extract temporal and expertise information, which will be used to solve question routing task, etc.
 
 \item The third limitation is that the detected probability distributions cannot be compared with each other.  Let us explain this in detail. A three-layer LDA model (user-topic-word) generates two kinds of distributions, a user-topic distribution and a topic-word distribution, which describe to what extent a user is interested in different topics and to what extent a keyword or a tag is related to different topics. 
 However, as shown in figure~\ref{fig:usertopic}, the same user-topic distribution could be generated by different training data (assume that the hidden variable topic is generated by Gibbs sampling~\cite{griffiths2004finding}), which means that user-topic distributions are incomparable among users. For the upper distribution of figure~\ref{fig:usertopic}, \emph{Alice} is more active in topic \emph{music}, but for the lower one, \emph{Bob} is more active. 
-%TODO Cath: put the following sentence as a third item in the enumeration at the end of the chapter and indicat where it is described in your thesis
-%NOTE Zide, move to the end
+
 
 \end{itemize}
 
@@ -343,7 +331,5 @@ Therefore, in the rest of this thesis we show how we extended our preliminary wo
 \begin{enumerate}
  \item First, we developed a more simple method to detect topics and overlapping communities to solve the efficiency problem: the TTD method is presented in Chapter \ref{chap:ttd}.
   \item Second, we propose a more complex model to extract more information from user generated content to answer the two other limitations: we propose the TTEA method to extract more information and a post-process method to solve the incomparable problem. They all described in Chapter \ref{chap:ttea}
-  %NOTE Zide: integerated in item 2.
- 
 \end{enumerate}
  

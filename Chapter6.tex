@@ -131,7 +131,7 @@ DBpedia\footnote{\url{http://dbpedia.org/about} (accessed Feb 2016)} is a crowd-
 
 
 In order to use the DBpedia knowledge base, a basic step is to link the bag of words to DBpedia. For example, the word \textit{javascript} could be linked to DBpedia resource \textit{\url{http://dbpedia.org/resource/JavaScript}}, the word \textit{beer} could be linked to DBpedia resource	\textit{\url{http://dbpedia.org/resource/Beer}}. However, in some cases, several resources or entities may correspond to the same word (homonymy). For instance, \textit{java} could be linked to the \textit{Java} island but it could also be linked to the\textit{Java} programming language. Therefore, we have to deal with a disambiguation problem when linking words to DBpedia resources. This is a well-known problem now and extensively studied by researchers working on entity recognition, named entity detection and entity linking.  
-Babelfy\cite{chp6babelfy:Moroetal:14tacl} is a unified graph-based approach to solve Entity Linking (EL) and Word Sense Disambiguation (WSD) problems. Their experiments show the state-of-the-art performances on both tasks on 6 different datasets. Moreover they provide an online webservice\footnote{\url{http://babelfy.org} (accessed Feb 2016)}. So we directly used their web API to retrieval DBpedia links for the words in our dataset. In addition, we used classical similarity metrics to solve the disambiguation problem, as detailed in the next subsection.
+Babelfy \cite{chp6babelfy:Moroetal:14tacl} is a unified graph-based approach to solve Entity Linking (EL) and Word Sense Disambiguation (WSD) problems. Their experiments show the state-of-the-art performances on both tasks on 6 different datasets. Moreover they provide an online webservice\footnote{\url{http://babelfy.org} (accessed Feb 2016)}. So we directly used their web API to retrieval DBpedia links for the words in our dataset. In addition, we used classical similarity metrics to solve the disambiguation problem, as detailed in the next subsection.
 
 \subsection{Using descriptions' cosine similarity for disambiguation}
 Our main dataset is from the StackOverflow website and we found that there are detailed descriptions for each tag on the website, as shown in figure \ref{fig:chp6taginfo}
@@ -153,8 +153,6 @@ Besides, each resource in DBpedia has a description.  We used the DBpedia keywor
 
 In order to link \textit{java} to the correct DBpedia resource, we compute the cosine similarity between the two descriptions from the two websites (StackOverflow and DBpedia) to solve the disambiguation problem. We show an example in Figure \ref{fig:chp6cosine}. The  entire procedure is as follows:
 
-%TODO Cath use a presentation like in the previous chapters for algorithms
-% check the fig below
 \begin{figure}[htp]
 \centering
 \includegraphics[width=5in]{chp6cosine.jpg}  
@@ -162,7 +160,7 @@ In order to link \textit{java} to the correct DBpedia resource, we compute the c
 \label{fig:chp6cosine} 
 \end{figure}
 
-
+%TODO Cath use a code  format like in the previous chapters for this algorithm
 \begin{enumerate}
     \item{crawl the tag description from StackOverflow}
     \item{retrieve DBpedia resources by the lookup service}
@@ -224,7 +222,7 @@ Once we have these relation graphs, we perform several graph algorithms to chose
     It is an indicator of a node's centrality in a network. It is equal to the number of shortest paths from all vertices to all others that pass through that node.
     \item {Degree Centrality (DC)} \\
     It is defined as the number of links incident upon a node, which is equal to indegree plus outdegree for a directed graph.
-    \item {Page Rank\cite{chp6page1999pagerank} (PR)}\\
+    \item {Page Rank \cite{chp6page1999pagerank} (PR)}\\
     PageRank is an algorithm used by Google Search to rank websites in their search engine results. It can be applied on other kinds of graph to estimate the importance of the nodes.
     \item {Random} \\
     We just randomly choose one node from the graph.
@@ -232,21 +230,12 @@ Once we have these relation graphs, we perform several graph algorithms to chose
     The topic modeling algorithm generates a topic-word distribution to indicate to what extent a word is related to a topic. By sorting words' corresponding probabilities, we can obtain a ranked word list for each topic, which are the top related words in each topic. A naive approach can use the first tag or first two tags to label each topic. 
 \end{itemize}
 
-%TODO Cath : I added this her. TO be checked
 We proposed a method called "Most+Top" which consists in creating the list of the most recommended labels by all the above algorithms and then a label from this list by using the above \"Top tags\" algorithm. 
-%note zide checked 
 
 
 \section{Experiments: A survey study}
 In order to evaluate the performances of the different ways to generate labels we conducted user studies on the results. We designed two surveys for the user study. Table \ref{tab:chp6survey} shows the structure of the survey we used. For each survey, we listed 30 topics, half of them are from StackOverflow dataset, half of them are from Flickr dataset. 
 The only difference for survey A and B is the linking (disambiguation) method for StackOverflow dataset. As mentioned in section \ref{sec:chp6secSolution}, we use both cosine similarity and Babelfy to link tags with DBpedia resources. 
-
-%TODO Cath is the table correct? and the text above? I do not understand in which case you use the cosine similarity and in which case yu use Babelfy
-%yes, they are correct., I update the above text to make it more clear.
-%surveyA SO          use cosine simi
-%surverA flickr      use   babelfy
-%surveyB SO          use   babelfy
-%surverB flickr      use   babelfy
 
 
 \begin{table}[htp]
@@ -267,11 +256,6 @@ The only difference for survey A and B is the linking (disambiguation) method fo
 We use Krippendorff's Alpha\footnote{\url{https://en.wikipedia.org/wiki/Krippendorff\'s_alpha}} score to evaluate the degree of agreement among users. The score indicates the homogeneity, or consensus, in the ratings given by users. The score is always smaller than 1, $\alpha = 1 $ indicates the judges reach a perfect agreement and $\alpha =0 $ indicates the judges do not agree at all. When $\alpha <0 $ this means that judges reached a disagreement exceeding what can be expected by chance.  
 Figure \ref{fig:chp6alpha} illustrates the alpha score for 15 topics in each dataset and the average alpha score. We evaluate this score in three levels which correspond to the three sub figures. If we consider the top voted label as the best label, the first figure shows the agreement score among users. When we lower this limitation and consider the set of the top voted two labels as the best label, we can find that for most of the topics users could reach a good agreement. When we keep lowering this limitation and consider the top three voted labels as the best label, we can find that they reach an excellent agreement. 
 
-%TODO Cath check the captions I added to all the following figures
-%done
-
-%TODO Cath remove Agreement Alpha Score on your 3 subfigures
-%done
 
 \begin{figure}[htp]
 \caption{Agreement Alpha Score on the top X labels}
@@ -280,8 +264,7 @@ Figure \ref{fig:chp6alpha} illustrates the alpha score for 15 topics in each dat
 \includegraphics[width=5in]{chp6alpha.jpeg}  
 \end{figure}
 
-%TODO Cath correct in your 3 subfigures: percentage od users agreeing on ...
-%done
+%TODO Cath Check the title (caption) of the figure
 
 In addition, we calculate the proportion of top voted labels. Figure \ref{fig:chp6top} shows the number of topics which top voted labels take a certain proportion.
 \begin{figure}[htp]
@@ -301,8 +284,7 @@ We use the NDCG metric to evaluate all the algorithms listed in Section \ref{sec
 Here, we evaluate NDCG@1, NDCG@2, and NDCG@3. The algorithm can generate a ranked label list. We sort the labels according to the number of votes from the survey as ideal ranking list. 
 We can find that most of the algorithms can predict the good labels for a topic. Especially, if we consider giving two labels for a topic, our proposed method "Most+Top" has very good results on all the datasets, which means for all the topics, the method can generate two good labels to represent the meaning of the topic.
 
-%TODO Cath remove "different algorithms" in your 3 subfigures
-%done
+%TODO Cath a title (caption) is missing for this figure
 
 \begin{figure}[htp]
 \centering
