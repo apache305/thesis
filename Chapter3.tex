@@ -168,11 +168,13 @@ Here are the main new classes and properties introduced in the QASM vocabulary:
 %TODO you are missing one section describing the structure of the Stackoverflow data (dump), its format and the mapping between this structure and your vocabulary ; in other words in the introduction you say you will present the eaxtraction an formalization but you did not cover the extraction/mapping part. You need to add that to this chapter.
 %done
 
-We obtained the data dump of Stackoverflow from the website\footnote{\url{https://archive.org/details/stackexchange} (accessed Aug 2016)}. It includes all user-contributed content on the Stack Exchange network. Each site is formatted as a separate archive consisting of XML files. Each dataset includes Posts, Users, Votes, Comments, PostHistory and PostLinks and the schema information.
+We obtained the data dump of Stackoverflow from the website\footnote{\url{https://archive.org/details/stackexchange} (accessed Aug 2016)}. It includes all user-contributed content on the Stack Exchange network. Each site is formatted as a separate archive consisting of XML files. The data set includes Posts (including all the questions and answers), Users (including all the user profiles), Votes (including all the vote information for both questions and answers), Comments (including all the comments for both questions and answers) and the schema information (describing the content of each file).
 
 A first step is to map the original dataset to the QASM vocabulary. 
 %Since the schema of the data dump are well organized and designed, we just simply mapped them one by one. 
 %TODO Cath: this is not sufficient, you should briefly describe the structure of the data, and maybe provide an exemple and later on provide its translation in RDF/TUrtle using QASM
+
+%done, please check fig 3.4,3.5
 
 %We reuse as many as existing vocabularies: SIOC ontology (with prefix sioc: or tsioc:), Dublin Core (with prefix dcterm:), Reivew ontology (with prefix rev:), NEPOMUK Information Element Core Ontology (with prefix nie:). 
 %TODO Cath you should not repeat again here which vocabularies are reused but the NIE ontology is not previously mentioned. You should do it in the section describing the QASM ontology
@@ -193,7 +195,8 @@ The original schema elements and mapping QASM concepts are listed in table \ref{
         CreationDate & dcterm:created \\ \hline
         Score & rev:totalVotes \\ \hline
         ViewCount & sioc:num\_views \\ \hline
-        Body & nie:htmlContent\\ \hline
+        Body & sioc:content \\ \hline %nie:htmlContent\\ \hline
+        %we use sioc content to replace the nie:htemlContent. more similar.
         OwnerUserId & sioc:has\_owner \\ \hline
         LastActivityDate & sioc:last\_activity\_date\\ \hline
         Title & dcterms:title\\ \hline
@@ -205,6 +208,37 @@ The original schema elements and mapping QASM concepts are listed in table \ref{
     \caption{Mapping between original data dump of Stackoverflow and QASM vocabulary}
     \label{tab:mappingstackoverflow}
 \end{sidewaystable}
+
+Here is an example of question\#9 in Posts.xml file.
+
+\textit{<row Id="9" PostTypeId="1" AcceptedAnswerId="1404" CreationDate="2008-07-31T23:40:59.743" Score="39" ViewCount="9011" Body="Given a DateTime representing their birthday, how do I calculate someone's age?  " OwnerUserId="1" LastEditorUserId="56555" LastEditorDisplayName="Rich B" LastEditDate="2009-07-28T20:52:42.660" LastActivityDate="2009-07-28T20:52:42.660" Title="How do I calculate someone's age in C\#?" Tags="c\#,datetime," AnswerCount="22" CommentCount="0" FavoriteCount="21" />}
+
+
+Figure \ref{fig:qexample} is an example of question\#9 formalized in rdf.
+\begin{sidewaysfigure}
+\centering
+\includegraphics[width=8in]{qexample.png}
+\caption{Example of formalized question\#9 in RDF}
+\label{fig:qexample} 
+%\end{figure}
+\end{sidewaysfigure}
+
+Here is an example of answer\#10 for question\#9 in Posts.xml file.
+\textit{<row Id="10" PostTypeId="2" ParentId="9" CreationDate="2008-07-31T23:42:31.910" Score="18" ViewCount="0" Body="p,Here is one solution I found: DateTime dt = new DateTime( bday.Year, DateTime.Now.Month, DateTime.Now.Day);int age = (dt.Date)" OwnerUserId="1" LastEditorUserId="56555" LastEditorDisplayName="Jeff Atwood" LastEditDate="2009-07-25T23:04:09.823" LastActivityDate="2009-07-25T23:04:09.823" CommentCount="3" />}
+
+Figure \ref{fig:aexample} is an example of answer\#10 for question\#9 formazlied in rdf.
+
+\begin{sidewaysfigure}
+\centering
+\includegraphics[width=8in]{aexample.png}
+\caption{Example of formalized answer\#10 for question\#9 in RDF}
+\label{fig:aexample} 
+%\end{figure}
+\end{sidewaysfigure}
+
+
+
+
 
 
 \section{Modeling the latent knowledge in Q\&A sites}
