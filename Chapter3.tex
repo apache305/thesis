@@ -176,11 +176,7 @@ A first step is to map the original dataset to the QASM vocabulary.
 
 %done, please check fig 3.4,3.5
 
-%We reuse as many as existing vocabularies: SIOC ontology (with prefix sioc: or tsioc:), Dublin Core (with prefix dcterm:), Reivew ontology (with prefix rev:), NEPOMUK Information Element Core Ontology (with prefix nie:). 
-%TODO Cath you should not repeat again here which vocabularies are reused but the NIE ontology is not previously mentioned. You should do it in the section describing the QASM ontology
-%For the "Posts.xml", 
-%TODO Cath: what is Posts.xml
-%note zide .the original dataset download from stackoverlfow.
+
 The original schema elements and mapping QASM concepts are listed in table \ref{tab:mappingstackoverflow}.
 
 \begin{sidewaystable}
@@ -209,38 +205,98 @@ The original schema elements and mapping QASM concepts are listed in table \ref{
     \label{tab:mappingstackoverflow}
 \end{sidewaystable}
 
-Here is an example of question\#9 in Posts.xml file.
+\clearpage
+Here is a sampled example of question\#9 in Posts.xml file. Each \textit{row} contain a post with all the detailed information about this post. \textit{PostTypeId} is 1 when the post is a question, and is 2 when the post is an answer. \textit{Score} is euqal to \textit{UpVote} minus \textit{DownVote}. \textit{Tags} are the keywords which are assigned by users.
+\begin{algorithm}%{10cm}%[htp]
+%\begin{minipage}{0.8\columnwidth}
+\begin{algorithmic}[1]
+\State <?xml version="1.0" encoding="utf-8"?>
+\State <posts>
 
-\textit{<row Id="9" PostTypeId="1" AcceptedAnswerId="1404" CreationDate="2008-07-31T23:40:59.743" Score="39" ViewCount="9011" Body="Given a DateTime representing their birthday, how do I calculate someone's age?  " OwnerUserId="1" LastEditorUserId="56555" LastEditorDisplayName="Rich B" LastEditDate="2009-07-28T20:52:42.660" LastActivityDate="2009-07-28T20:52:42.660" Title="How do I calculate someone's age in C\#?" Tags="c\#,datetime," AnswerCount="22" CommentCount="0" FavoriteCount="21" />}
+\State \indent <row Id="9" PostTypeId="1" AcceptedAnswerId="1404" CreationDate="2008-07-31T23:40:59.743" Score="39" ViewCount="9011" Body="Given a DateTime representing their birthday, how do I calculate someone's age?  " OwnerUserId="1" LastEditorUserId="56555" LastEditorDisplayName="Rich B" LastEditDate="2009-07-28T20:52:42.660" LastActivityDate="2009-07-28T20:52:42.660" Title="How do I calculate someone's age in C\#?" Tags="c\#,datetime," AnswerCount="22" CommentCount="0" FavoriteCount="21" />
+\State </posts>
 
+\end{algorithmic}
+\end{algorithm}
 
-Figure \ref{fig:qexample} is an example of question\#9 formalized in rdf.
-\begin{sidewaysfigure}
-\centering
-\includegraphics[width=8in]{qexample.png}
-\caption{Example of formalized question\#9 in RDF}
-\label{fig:qexample} 
-%\end{figure}
-\end{sidewaysfigure}
-
-Here is an example of answer\#10 for question\#9 in Posts.xml file.
-\textit{<row Id="10" PostTypeId="2" ParentId="9" CreationDate="2008-07-31T23:42:31.910" Score="18" ViewCount="0" Body="p,Here is one solution I found: DateTime dt = new DateTime( bday.Year, DateTime.Now.Month, DateTime.Now.Day);int age = (dt.Date)" OwnerUserId="1" LastEditorUserId="56555" LastEditorDisplayName="Jeff Atwood" LastEditDate="2009-07-25T23:04:09.823" LastActivityDate="2009-07-25T23:04:09.823" CommentCount="3" />}
-
-Figure \ref{fig:aexample} is an example of answer\#10 for question\#9 formazlied in rdf.
-
-\begin{sidewaysfigure}
-\centering
-\includegraphics[width=8in]{aexample.png}
-\caption{Example of formalized answer\#10 for question\#9 in RDF}
-\label{fig:aexample} 
-%\end{figure}
-\end{sidewaysfigure}
+Here is an example of formalized question\#9. We list reused schema in line 3-15. The detailed information about question\#9 are described in line 17-34. The mapping between original post and rdf format are listed in Table \ref{tab:mappingstackoverflow}.
 
 
 
+\begin{algorithm}[h]%{10cm}%
+%\begin{minipage}{0.8\columnwidth}
+\begin{algorithmic}[1]
+\State <?xml version="1.0"?>
+\State <rdf:RDF
+\State \indent xmlns:rev="http://purl.org/stuff/rev\#"
+\State \indent xmlns:sioc\_type="http://rdfs.org/sioc/type\#"
+\State \indent xmlns:dc="http://purl.org/dc/elements/1.1/"
+\State \indent xmlns:dcterm="http://purl.org/dc/terms/"
+\State \indent xmlns:qasm="http://ns.inria.fr/qasm\#"
+\State \indent xmlns:sioc="http://rdfs.org/sioc/ns\#"
+\State \indent xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns\#"
+\State \indent xmlns:foaf="http://xmlns.com/foaf/0.1/"
+\State \indent xmlns:owl="http://www.w3.org/2002/07/owl\#"
+\State \indent xmlns:vocab="http://localhost:2020/"
+\State \indent xmlns:dcterm="http://purl.org/dc/terms/"
+\State \indent xmlns:xsd="http://www.w3.org/2001/XMLSchema\#"
+\State \indent xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema\#"
+\State >
+\State \indent <rdf:Description rdf:about="post/9">
+\State \indent \indent     <rdf:type rdf:resource="http://rdfs.org/sioc/type\#Question"/>
+\State \indent \indent     <rdfs:label>question \#9</rdfs:label>
+\State \indent \indent     <sioc:id rdf:datatype="xsd:integer">9 </sioc:id>
+\State \indent \indent     <sioc:has\_owner rdf:resource="user/1"/>
+\State \indent \indent     <qasm:acceptedAnswer rdf:resource="post/1404"/>
+\State \indent \indent     <qasm:num\_comments rdf:datatype= "xsd:integer">0</qasm:num\_comments>
+\State \indent \indent     <sioc:num\_views rdf:datatype="xsd:integer">9011</sioc:num\_views>
+\State \indent \indent     <dcterm:created rdf:datatype="xsd:dateTime"> 2008-07-31T23:40:59.743 </dcterm:created>
+\State \indent \indent     <dc:title>"How do I calculate someone's age in C\#?"</dc:title>
+\State \indent \indent     <rev:totalVotes rdf:datatype="xsd:integer">39</rev:totalVotes>
+\State \indent \indent     <sioc:last\_activity\_date rdf:datatype="xsd:dateTime"> 2009-07-28T20:52:42.660 </sioc:last\_activity\_date>
+\State \indent \indent     <sioc:num\_replies rdf:datatype="xsd:integer">22</sioc:num\_replies>
+\State \indent \indent     <sioc:content>"Given a DateTime representing their birthday, how do I calculate someone's age? "</sioc:content>
+\State \indent \indent     <sioc:topic rdf:resource="tag/c\#"/>
+\State \indent \indent     <sioc:topic rdf:resource="tag/datetime"/>
+\State \indent \indent     <qasm:num\_favorites rdf:datatype="xsd:integer">21</qasm:num\_favorites>
+\State \indent   </rdf:Description>
+\State </rdf:RDF>
+\end{algorithmic}
+\end{algorithm}
 
 
 
+
+
+
+
+% Figure \ref{fig:qexample} is an example of question\#9 formalized in RDF.
+% \begin{sidewaysfigure}
+% \centering
+% \includegraphics[width=8in]{qexample.png}
+% \caption{Example of formalized question\#9 in RDF}
+% \label{fig:qexample} 
+% %\end{figure}
+% \end{sidewaysfigure}
+
+% Here is an example of answer\#10 for question\#9 in Posts.xml file.
+% \textit{<row Id="10" PostTypeId="2" ParentId="9" CreationDate="2008-07-31T23:42:31.910" Score="18" ViewCount="0" Body="p,Here is one solution I found: DateTime dt = new DateTime( bday.Year, DateTime.Now.Month, DateTime.Now.Day);int age = (dt.Date)" OwnerUserId="1" LastEditorUserId="56555" LastEditorDisplayName="Jeff Atwood" LastEditDate="2009-07-25T23:04:09.823" LastActivityDate="2009-07-25T23:04:09.823" CommentCount="3" />}
+
+% Figure \ref{fig:aexample} is an example of answer\#10 for question\#9 formazlied in rdf.
+
+% \begin{sidewaysfigure}
+% \centering
+% \includegraphics[width=8in]{aexample.png}
+% \caption{Example of formalized answer\#10 for question\#9 in RDF}
+% \label{fig:aexample} 
+% %\end{figure}
+% \end{sidewaysfigure}
+
+
+
+
+
+\clearpage
 \section{Modeling the latent knowledge in Q\&A sites}
 
 Topics, interests, expertises, activities, trends are implicit  in the available raw CQA data. We use social media mining techniques to extract this knowledge.
