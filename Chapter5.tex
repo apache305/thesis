@@ -160,7 +160,7 @@ Simi(R_i,R_j)= \frac{I(R_i,R_j)}{(I(R_i)+I(R_j))}
 
 where $I(R_i,R_j)$ denotes the co-occurrence of root tag $R_i$ and root tag $R_j$, and $I(R_i)$ and $I(R_j)$ denote the occurrence of root tag $R_i$ and root tag $R_j$ respectively. Then we perform a spectral clustering~\cite{Ng01onspectral} on the affinity matrix to group these root nodes  (line 10-11). Each group forms what we will call a topic. As spectral clustering requires to select the desired number of topics, we choose the same number \textit{30} as~\cite{Chang:2013}, which has proved to be a reasonable setting for the Stackoverflow dataset.
 
-We then combine trees if their root nodes belong to the same topic (lines 12-13). This process leads to a forest where each tree represents a topic. Then, in the \textit{compute topic-tag distribution} process (lines 14-15), for each topic tree, we compute $p(t|k)$, which denotes the probability of tag $t$ belong to topic $k$, by using the Maximum Likelihood estimation (MLE), according to equation \ref{eq:laplace}: 
+We then combine trees if their root nodes belong to the same topic (lines 12-13). This process leads to a forest where each tree represents a topic. Then, in the \textit{compute topic-tag distribution} process (lines 14-15), for each topic tree, we compute $p(t|k)$, which denotes the probability of tag $t$ belonging to topic $k$, by using the Maximum Likelihood estimation (MLE), according to equation \ref{eq:laplace}: 
 
 
 \begin{equation}

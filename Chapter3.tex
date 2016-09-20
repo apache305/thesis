@@ -69,23 +69,20 @@ Table \ref{tab:qaontoproper} shows several properties used in our work.
     \centering
     \begin{tabular}{|c|c|c|c|}
     \hline
-    Class &  Description & Type & Ontology \\ \hline
-    User  & active user & explicit &  sioc:User \\ \hline
-    Question & questions post & explicit & sioc:Question \\ \hline
-    Answer  & answer post & explicit & sioc:Answer \\ \hline
-    Tag & tags used to label questions & explicit & sioc:Tag \\ \hline
-    Word & words used in Q\&A content & explicit & qasm:Word \\ \hline
-    PeriodOfTime & time interval & explicit & dcterms:PeriodOfTime \\ \hline
-    Topic & bag of words/tags & implicit & sioc:Topic \\ \hline   
-    UserInterest& User interest over topic distribution & implicit& qasm:UserInterest\\ \hline
-    UserExpertise & User expertise over topic distribution &implicit& qasm:UserExpertise \\ \hline
-    TopicTag &Topic over tags distribution&implicit &qasm:TopicTag \\ \hline
-    
-    TopicWord&Topic over words distribution &implicit & qasm:TopicWrod\\ \hline
-    
-    UserActivity&Topic over users distribution & implicit &qasm:UserActivity \\ \hline
-    
-    TopicTrend &Topic over time distribution &implicit & qasm:TopicTrend\\ \hline
+Ontology&  Description & Type  \\ \hline
+  sioc:User& active user & explicit  \\ \hline
+ sioc:Question& questions post & explicit  \\ \hline
+ sioc:Answer& answer post & explicit  \\ \hline
+ sioc:Tag& tags used to label questions & explicit  \\ \hline
+ qasm:Word& words used in Q\&A content  &explicit\\ \hline
+ dcterms:PeriodOfTime& time interval & explicit  \\ \hline
+ sioc:Topic& bag of words/tags & implicit  \\ \hline
+ qasm:UserInteres& User interest over topic distribution & implicit \\ \hline
+ qasm:UserExpertise& User expertise over topic distribution &implicit \\ \hline
+qasm:TopicTag&Topic over tags distribution&implicit  \\ \hline
+ qasm:TopicWro&Topic over words distribution &implicit  \\ \hline
+qasm:UserActivity&Topic over users distribution & implicit  \\ \hline
+ qasm:TopicTren&Topic over time distribution &implicit  \\ \hline
           
     \end{tabular}
     \caption{the Vocabulary (classes) used in our work}
@@ -165,8 +162,7 @@ Here are the main new classes and properties introduced in the QASM vocabulary:
 
 
 \section{Formalizing Stackoverflow data with the QASM vocabulary}
-%TODO you are missing one section describing the structure of the Stackoverflow data (dump), its format and the mapping between this structure and your vocabulary ; in other words in the introduction you say you will present the eaxtraction an formalization but you did not cover the extraction/mapping part. You need to add that to this chapter.
-%done
+
 
 We obtained the data dump of Stackoverflow from the website\footnote{\url{https://archive.org/details/stackexchange} (accessed Aug 2016)}. It includes all user-contributed content on the Stack Exchange network. Each site is formatted as a separate archive consisting of XML files. The data set includes Posts (including all the questions and answers), Users (including all the user profiles), Votes (including all the vote information for both questions and answers), Comments (including all the comments for both questions and answers) and the schema information (describing the content of each file).
 
@@ -213,7 +209,23 @@ Here is a sampled example of question\#9 in Posts.xml file. Each \textit{row} co
 \State <?xml version="1.0" encoding="utf-8"?>
 \State <posts>
 
-\State \indent <row Id="9" PostTypeId="1" AcceptedAnswerId="1404" CreationDate="2008-07-31T23:40:59.743" Score="39" ViewCount="9011" Body="Given a DateTime representing their birthday, how do I calculate someone's age?  " OwnerUserId="1" LastEditorUserId="56555" LastEditorDisplayName="Rich B" LastEditDate="2009-07-28T20:52:42.660" LastActivityDate="2009-07-28T20:52:42.660" Title="How do I calculate someone's age in C\#?" Tags="c\#,datetime," AnswerCount="22" CommentCount="0" FavoriteCount="21" />
+\State \indent <row 
+\State \indent \indent Id="9" 
+\State \indent \indent PostTypeId="1"
+\State \indent \indent AcceptedAnswerId="1404"
+\State \indent \indent CreationDate="2008-07-31T23:40:59.743"
+\State \indent \indent Score="39" 
+\State \indent \indent ViewCount="9011" 
+\State \indent \indent Body="Given a DateTime representing their birthday, how do I calculate someone's age?  " 
+\State \indent \indent OwnerUserId="1"
+\State \indent \indent LastEditorUserId="56555" 
+\State \indent \indent LastEditorDisplayName="Rich B" 
+\State \indent \indent LastEditDate="2009-07-28T20:52:42.660" 
+\State \indent \indent LastActivityDate="2009-07-28T20:52:42.660" 
+\State \indent \indent Title="How do I calculate someone's age in C\#?" 
+\State \indent \indent Tags="c\#,datetime," AnswerCount="22" CommentCount="0" 
+\State \indent \indent FavoriteCount="21" 
+\State \indent />
 \State </posts>
 
 \end{algorithmic}
